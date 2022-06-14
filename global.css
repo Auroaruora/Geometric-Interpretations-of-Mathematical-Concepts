@@ -1,0 +1,55 @@
+/* Body Attributes */
+body {
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+/* Paragraphs */
+p {
+  text-indent: 1em;
+  text-align: justify;
+  margin-top: 0.25ex;
+  margin-bottom: 0.5ex;
+  line-height: 2.5ex;
+}
+
+p.list {
+  text-indent: 1em;
+  text-align: justify;
+  margin-top: 0.25ex;
+  margin-bottom: 0.25ex;
+  line-height: 2.5ex;
+}
+
+/* Headers */
+h2 {
+  text-align: center;
+  padding-top: 4ex;
+  padding-bottom: 2ex;
+  margin: 0em;
+}
+
+h3 {
+  text-align: left;
+  padding-top: 3ex;
+  margin: 0em;
+}
+
+/* Horizontal Lines */
+hr {
+  width: 33%;
+  margin-top: 0.5em;
+  margin-right: auto;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  color: silver;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ffcd33;
+}
