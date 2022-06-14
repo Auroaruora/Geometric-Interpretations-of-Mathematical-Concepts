@@ -10,7 +10,7 @@ var freeze = false; // fix mouse position?
 // Matrix 
 var matrix = [[],[]];
 //
-var drawCanvasFunction;
+var mode;
 // Colors for arrows
 const pen1 = "#6A0DAD", pen2 = "#31906E", pen3 = "#0000FF",pen4 ="#ADD8E6";// Colorcode for pens. Pen1 is Bright Purple, Pen2 is DarkMint
 
@@ -129,7 +129,12 @@ function draw_canvas()
 	[x0, y0] = [rect_map.x(m[0]), rect_map.y(m[1])];
     }
     draw_grids();
-    drawCanvasFunction;
+    
+    if(mode== "ordinary"){
+        drawOrdinary();
+    }else if(mode== "unit"){
+        drawUnit()
+    }
 }
 
 function drawOrdinary(){
@@ -187,18 +192,12 @@ function drawUnit(){
 
 function make_menu()
 {
-    choices = '<select id="mode">\n';
-    choices += '<option value="ordinary">Ordinary</option>\n';
-    choices += '<option value="unit">Unit Circle</option>\n';
-    choices += '</select>';
-    $('#modeChoices').html(choices);
-
-    $("#mode").change(function() {
-	var selection = $(this).find("option:selected").val();
-	if (selection == "ordinary")
-        drawCanvasFunction = drawOrdinary();
-	else if (selection == "circle")
-        drawCanvasFunction = drawUnit();
+    $("#modeMenu").change(function() {
+	mode = $("#modeMenu").find("option:selected").val();
+	if (mode == "ordinary")
+        mode = "ordinary"
+	else if (mode == "unit")
+        mode = "unit"
     });
 }
 
