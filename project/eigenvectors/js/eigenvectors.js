@@ -27,8 +27,8 @@ $(document).ready(function() {
     context = d3.select("#domain");
     context.on("click", toggle_freeze)
 	.on("mousemove", draw_canvas);
-    make_menu();
-    draw_grids();
+    draw_grids(); 
+    draw_canvas();
     make_coefficient_table();
     //set_coefficients();
     generate_Matrix()
@@ -129,7 +129,7 @@ function draw_canvas()
 	[x0, y0] = [rect_map.x(m[0]), rect_map.y(m[1])];
     }
     draw_grids();
-    
+
     if(mode== "ordinary"){
         drawOrdinary();
     }else if(mode== "unit"){
