@@ -10,7 +10,7 @@ var freeze = false; // fix mouse position?
 // Matrix 
 var matrix = [[],[]];
 //
-var mode;
+var mode ="ordinary";
 // Colors for arrows
 const pen1 = "#6A0DAD", pen2 = "#31906E", pen3 = "#0000FF",pen4 ="#ADD8E6";// Colorcode for pens. Pen1 is Bright Purple, Pen2 is DarkMint
 
@@ -27,8 +27,8 @@ $(document).ready(function() {
     context = d3.select("#domain");
     context.on("click", toggle_freeze)
 	.on("mousemove", draw_canvas);
-    draw_grids(); 
-    draw_canvas();
+    make_menu();
+    draw_grids();
     make_coefficient_table();
     //set_coefficients();
     generate_Matrix()
@@ -129,10 +129,10 @@ function draw_canvas()
 	[x0, y0] = [rect_map.x(m[0]), rect_map.y(m[1])];
     }
     draw_grids();
-
-    if(mode== "ordinary"){
+    
+    if(mode == "ordinary"){
         drawOrdinary();
-    }else if(mode== "unit"){
+    }else if(mode == "unit"){
         drawUnit()
     }
 }
