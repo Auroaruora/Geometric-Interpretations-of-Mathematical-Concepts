@@ -9,8 +9,7 @@ var freeze = false; // fix mouse position?
 
 // Matrix 
 var matrix = [[],[]];
-//
-var mode ="ordinary";
+
 // Colors for arrows
 const pen1 = "#6A0DAD", pen2 = "#31906E", pen3 = "#0000FF",pen4 ="#ADD8E6";// Colorcode for pens. Pen1 is Bright Purple, Pen2 is DarkMint
 
@@ -129,33 +128,10 @@ function draw_canvas()
 	[x0, y0] = [rect_map.x(m[0]), rect_map.y(m[1])];
     }
     draw_grids();
-    
-    if(mode == "ordinary"){
-        drawOrdinary();
-    }else if(mode == "unit"){
-        drawUnit()
-    }
+    drawUnit()
+
 }
 
-function drawOrdinary(){
-   
-    context = d3.select("#domain");
-    context.selectAll("path").remove();
-   
-    context = d3.select("#domain");
-    pen.color(pen1).width("2px");
-    arrow([0, 0], [x0, y0]);
-
-    context = d3.select("#target");
-    context.selectAll("path").remove();
-
-    pen.color(pen1).width("2px");
-    // arrow([0, 0], [x0, y0]);
-    arrow ([0,0],[x0,y0]);
-
-    pen.color(pen2).width("4px");
-    arrow([0, 0], calculateT(x0, y0));	
-}
 
 function drawUnit(){
     var norm = Math.sqrt(x0*x0+y0*y0);
