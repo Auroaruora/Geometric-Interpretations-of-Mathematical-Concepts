@@ -135,33 +135,56 @@ function draw_canvas()
 
 function drawUnit(){
     var norm = Math.sqrt(x0*x0+y0*y0);
+    // If user has picked [0, 0], do nothing
+    if (norm < EPSILON)
+	return;
+
+    // else
+    // store user's unit vector and its image under T
+    var tmp_unit = [x0/norm, y0/norm],
+	tmp_image = calculateT(tmp_unit[0], tmp_unit[1]);
+    
     context = d3.select("#domain");
     context.selectAll("path").remove();
+    // clear labels
     context.selectAll("foreignObject").remove();
     
     context = d3.select("#domain");
     pen.color(pen3).width("1px").fill(pen4).opacity(0.5);
     circle([0, 0], 1);
     
-
     pen.color(pen1).width("2px").opacity(1);
-    arrow([0, 0], [x0/norm, y0/norm]);
-    label([x0/norm, y0/norm], [0.05*x0/norm, 0.05*y0/norm], "<b>x</b>");
-    //label([x0/norm, y0/norm], [0, 0], "<b>x</b>");
+    arrow([0, 0], tmp_unit);
+    // Mult is scalar multiplication, defined in HC.js
+    label(tmp_unit, Mult(0.05, tmp_unit), "<b>x</b>");
 
+    // Draw the target canvas
     context = d3.select("#target");
     context.selectAll("path").remove();
     context.selectAll("foreignObject").remove();
+
+    // Check for parallel vectors (i.e., an eigenvector), do special drawing
+    if (Math.abs(tmp_unit[0]*tmp_image[1] - tmp_unit[1]*tmp_image[0]) < 0.01)
+    {
+	// Draw the eigenspace
+	pen.color(pen2).width("6px").opacity(0.5);
+	line(Mult(-1.5*sz, tmp_unit), Mult(1.5*sz, tmp_unit));
+
+	/* Not working, not sure why.... */
+	// Use CSS to set border to green 2 pixels wide
+	$("#target-span").css({"border-width": "5px", "border-color": "green"});
+    }
+    // no "else" branch; just draw the canvas as usual
     
     pen.color(pen1).width("2px").opacity(1);
     // arrow([0, 0], [x0, y0]);
-    arrow ([0,0],[x0/norm,y0/norm]);
-    label([x0/norm, y0/norm], [0.05*x0/norm, 0.05*y0/norm], "<b>x</b>");
+    arrow ([0,0], tmp_unit);
+    label(tmp_unit, Mult(0.05, tmp_unit), "<b>x</b>");
 
     pen.color(pen2).width("4px").opacity(1);
-    arrow([0, 0], calculateT(x0/norm, y0/norm));
-    label(calculateT(x0/norm, y0/norm), [0.05*x0/norm, 0.05*y0/norm], "<em>T</em>(<b>x</b>)");
-    
+    arrow([0, 0], tmp_image);
+    label(tmp_image, Mult(0.05, tmp_image), "<em>T</em>(<b>x</b>)");
+
     var bd = [];
     var numPts = 120;
     var dTheta = 2*Math.PI/numPts;
