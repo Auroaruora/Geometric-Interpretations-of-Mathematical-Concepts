@@ -137,6 +137,7 @@ function drawUnit(){
     var norm = Math.sqrt(x0*x0+y0*y0);
     context = d3.select("#domain");
     context.selectAll("path").remove();
+    context.selectAll("foreignObject").remove();
     
     context = d3.select("#domain");
     pen.color(pen3).width("1px").fill(pen4).opacity(0.5);
@@ -145,16 +146,21 @@ function drawUnit(){
 
     pen.color(pen1).width("2px").opacity(1);
     arrow([0, 0], [x0/norm, y0/norm]);
+    label([x0/norm, y0/norm], [0.05*x0/norm, 0.05*y0/norm], "<b>x</b>");
+    //label([x0/norm, y0/norm], [0, 0], "<b>x</b>");
 
     context = d3.select("#target");
     context.selectAll("path").remove();
-
+    context.selectAll("foreignObject").remove();
+    
     pen.color(pen1).width("2px").opacity(1);
     // arrow([0, 0], [x0, y0]);
     arrow ([0,0],[x0/norm,y0/norm]);
+    label([x0/norm, y0/norm], [0.05*x0/norm, 0.05*y0/norm], "<b>x</b>");
 
     pen.color(pen2).width("4px").opacity(1);
     arrow([0, 0], calculateT(x0/norm, y0/norm));
+    label(calculateT(x0/norm, y0/norm), [0.05*x0/norm, 0.05*y0/norm], "<em>T</em>(<b>x</b>)");
     
     var bd = [];
     var numPts = 120;
