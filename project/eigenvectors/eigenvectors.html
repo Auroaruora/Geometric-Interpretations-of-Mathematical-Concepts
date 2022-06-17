@@ -10,16 +10,16 @@
   <script src="../../js/HC.js"></script>
   <script src="./js/eigenvectors.js"></script>
 
-  <!-- <script type="text/x-mathjax-config">
+  <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
       processEscapes: true
     }
   });
-  </script> -->
+  </script>
 
-  <script src="../js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script src="../../js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 
 <body>
@@ -28,21 +28,30 @@
   </header>
   
   <p>
-    Eigenvalue: An eigenvalue of T is a scalar for which there exists a coresponding eigenvector. 
+    $\newcommand{\Reals}{\mathbf{R}}\newcommand{\Vec}[1]{\mathbf{#1}}$Eigenvalue: An eigenvalue of T is a scalar for which there exists a coresponding eigenvector. 
   </p>
   <p>
-    Eigenvector: An eigenvector is a speical vector <b>x</b> in <b>V</b> such that T(<b>x</b>) = 
+    Let $T:V \to W$ be the linear operator defined by the matrix
+    <span id="coefficients"></span> 
   </p>
-
-  <br>
-  <p>Let T:<b>V</b> &#8594; <b>W</b> be a linear mapping defined by the matrix A =   <span id="coefficients"></span> </p>
-
-
-<svg id="domain"></svg>&emsp;<svg id="target"></svg>
-<p><b>V</b> = <b>R</b><sub>2</sub> <b>W</b> = <b>R</b><sub>2</sub></p>
-
-
-
+  <p>
+    Eigenvector: An eigenvector of $T$ is a vector $\Vec{x}$ in $V$
+    such that $T(\Vec{x}) = \lambda \Vec{x}$ for some real number $\lambda$.
+  </p>
+  <div style="display:flex; flex-direction: row; justify-content: center;">
+    <div style="text-align:center; margin-left:10px; margin-right: 10px;">
+      <span>
+	<svg id="domain"></svg>
+      </span><br />
+      <span style="align:center">$V = \Reals^{2}$.</span>
+    </div>
+    <div style="text-align:center; margin-left:10px; margin-right: 10px;">
+      <span>
+	<svg id="target"></svg>
+	</span><br />
+      <span style="align:center">$W = \Reals^{2}$.</span>
+    </div>
+  </div>
 
 <span id="debug"></span>
 
