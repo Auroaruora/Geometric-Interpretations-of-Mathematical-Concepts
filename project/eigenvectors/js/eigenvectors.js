@@ -1,9 +1,9 @@
 var width = 400, height = 400;
-var sz = 2, xmin = -sz, xmax = sz, ymin = -sz, ymax = sz;
+var sz = 3, xmin = -sz, xmax = sz, ymin = -sz, ymax = sz;
 
 var x0, y0, grid_idx;
 // grid parameters
-var ticks = 4, dx = 1/ticks, num_pts = 120;
+var ticks = 6, dx = 1/ticks, num_pts = 120;
 
 var freeze = false; // fix mouse position?
 

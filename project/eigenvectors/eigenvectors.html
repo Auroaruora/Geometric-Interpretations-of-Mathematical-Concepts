@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Geometric Interpretation of Eigenvalues and Eigenvectors</title>
+  <title>Geometric Interpretation of Eigenvalues, Eigenvectors and Eigenspace</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="shortcut icon" href="../favicon.ico" />
   <link rel="stylesheet" type="text/css" href="../../css/style.css" />
@@ -26,7 +26,7 @@
 
 <body>
   <header>
-    <h1>Geometric Interpretation of Eigenvalues and Eigenvectors</h1>
+    <h1>Geometric Interpretation of<br> Eigenvalues, Eigenvectors and Eigenspace</h1>
   </header>
   <!-- define the apperence for math expression -->
    <p style="display: none;">
@@ -35,22 +35,50 @@
   </p>
 
   <!-- definition of eigenvalue,eigenvectors and eigenspace  -->
-    <p>
-      Eigenvalue: An eigenvalue of T is a scalar for which there exists a coresponding eigenvector. 
+  <div>
+     <p>
+     <b> Eigenvector</b>:An eigenvector of $T$ is an non-zero vector $\Vec{x}$ in $V$
+      such that $T(\Vec{x}) = \lambda \Vec{x}$ for some real number $\lambda$. <br>
+      <b>Geometrically</b>, when we find a vector $\Vec{x}$ that is align with its corresponding 
+      transformation $T(\Vec{x})$ , that vector is an eigenvector of T.
     </p>
     <p>
-      Eigenvector: An eigenvector of $T$ is a vector $\Vec{x}$ in $V$
-      such that $T(\Vec{x}) = \lambda \Vec{x}$ for some real number $\lambda$.
+      <b>Eigenvalue</b> An eigenvalue of $T$ is a scalar for which there exists a 
+      coresponding eigenvector. Geometrically, when we find a eigenvector,the eigenvalue 
+      with be the factor between the eigenvector and its corresponding transformation.
     </p>
+   
+   
     <p>
-      Eigenvector: An eigenvector of $T$ is a vector $\Vec{x}$ in $V$
-      such that $T(\Vec{x}) = \lambda \Vec{x}$ for some real number $\lambda$.
+      <b>Eigenspace</b>: An eigenspace is a collection of eigenvector with respect to a 
+      particular eigenvalue along with vector $\Vec{0}$.In other words, if $\lambda$ is
+       a eigenvalue of of $T$, then the eigenspace is $E_{\lambda} = \{\Vec{x} \in  V| T(\Vec{x})=\lambda v\}$. 
+      If we consider about the kernel, $E_{\lambda}$ can also be repersent as $\ker(\lambda I - T)$
     </p>
-
+  </div>
   <!-- define mapping -->
   <p>
     Let $T:V \to W$ be the linear operator defined by the matrix
-    <span id="coefficients"></span> 
+    <table>
+      <tr>
+        <th rowspan="2">A <span style="font-weight: normal">= </span></th>
+        <td>
+          <input name= "a11" size="2" type="text" id="a11" onchange="generate_Matrix()" value ="3">
+        </td>
+        <td>
+          <input name= "a12" size="2" type="text" id="a12" onchange="generate_Matrix()" value ="0.5">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input name= "a21" size="2" type="text" id="a21" onchange="generate_Matrix()" value ="2.5">
+        </td>
+        <td>
+          <input name= "a22" size="2" type="text" id="a22" onchange="generate_Matrix()" value ="-2">
+        </td>
+      </tr>
+    </table>
+    <!-- <span id="coefficients"></span>  -->
   </p>
   
   <div style="display:flex; flex-direction: row; justify-content: center;">
