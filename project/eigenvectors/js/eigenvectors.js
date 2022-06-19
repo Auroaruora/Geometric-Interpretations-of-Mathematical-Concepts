@@ -227,6 +227,7 @@ function drawUnit(){
     // no "else" branch; just draw the canvas as usual
     
     pen.color(pen1).width("2px").opacity(1);
+    // arrow([0, 0], [x0, y0]);
     arrow ([0,0], tmp_unit);
     label(tmp_unit, Mult(0.05, tmp_unit), "<b>x</b>");
 
