@@ -1,7 +1,7 @@
 var width = 400, height = 400;
 var sz = 3, xmin = -sz, xmax = sz, ymin = -sz, ymax = sz;
 
-var x0, y0, grid_idx;
+var x0, y0;
 // grid parameters
 var ticks = 6, dx = 1/ticks, num_pts = 120;
 
@@ -10,8 +10,20 @@ var freeze = false; // fix mouse position?
 // Matrix 
 var matrix = [[],[]];
 
+// vectors we'll draw
+var vector_list = []
+
 // Colors for arrows
-const pen1 = "#6A0DAD", pen2 = "#31906E", pen3 = "#0000FF",pen4 ="#ADD8E6";// Colorcode for pens. Pen1 is Bright Purple, Pen2 is DarkMint
+//const pen1 = "#6A0DAD", pen2 = "#31906E", pen3 = "#0000FF",pen4 ="#ADD8E6";// Colorcode for pens. Pen1 is Bright Purple, Pen2 is DarkMint
+// "Muted" qualitative color scheme suggested by Paul Tol
+// https://personal.sron.nl/~pault/
+const palette = ["#000000", "#332288", "#88CCEE", "#44AA99", "#117733", "#999933", "#DDCC77", "#CC6677", "#882255", "#AA4499"];
+
+// Define these for backward compatibility
+var pen1 = palette[9],
+    pen2 = palette[7],
+    pen3 = palette[3],
+    pen4 = palette[2];
 
 var camera = new Camera();
 var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
@@ -25,6 +37,8 @@ $(document).ready(function() {
 
     context = d3.select("#domain");
     context.on("click", toggle_freeze)
+    /* Bind a function to the double-click event */
+	.on("dblclick", add_vector)
 	.on("mousemove", draw_canvas);
     make_menu();
     draw_grids();
@@ -40,6 +54,9 @@ function generate_Matrix()
     matrix[0][1] = parseFloat($("#a12").val());
     matrix[1][0] = parseFloat($("#a21").val());
     matrix[1][1] = parseFloat($("#a22").val());
+
+    /* If matrix changes, re-set the list of vectors to be drawn */
+    vector_list = [];
 }
 
 function make_coefficient_table()
@@ -70,7 +87,9 @@ function make_coefficient_table()
 
 	    // Generate the HTML element name and the default value
 	    var nm='a' + i + j,
-		coeff = -((1 + i + j) )% 2;
+		//coeff = -((1 + i + j) )% 2;
+		/* Randomly generate initial matrix entrues */
+		coeff = 0.85*sz*Math.random();
 	    // Compose the <td> line
 	    message += '<td>\n';
 	    message += '\\(a_{' + i + j + '} = \\)'; // MathJaX string
@@ -91,17 +110,39 @@ function calculateT(u, v)
     return [matrix[0][0] * u + matrix[0][1] *v, matrix[1][0] * u + matrix[1][1] * v];
 }
 
+/* Function to calculate the determinant of two vectors */
+function determinant(arg1, arg2)
+{
+    return Math.abs(arg1[0]*arg2[1] - arg1[1]*arg2[0]);
+}
+
+/* Boolean test for proportionality of two vectors */
+function proportional(arg1, arg2)
+{
+    return determinant(arg1, arg2) < 0.01;
+}
+
 function toggle_freeze()
 {
     freeze = !freeze;
 }
 
+/* Append a vector to our list of stored vectors */
+function add_vector()
+{
+    var tmp = [x0, y0];
+    if (freeze && determinant(tmp, calculateT(x0, y0)) < 0.05)
+	vector_list.push(tmp);
+
+    draw_canvas();
+}
+
 function draw_one_grid()
 {
-    pen.color("#888").width("1px").opacity(1);
-    grid([xmin, ymin], [xmax, ymax], [5*ticks, 5*ticks]);
+    pen.color(palette[0]).width("1px").opacity(1);
+    grid([xmin, ymin], [xmax, ymax], [subticks, subticks]);
 
-    pen.color("black").width("3px");
+    pen.color(palette[0]).width("3px");
     grid([xmin, ymin], [xmax, ymax], [ticks, ticks]);
 }
 
@@ -122,6 +163,7 @@ function draw_grids()
 
 function draw_canvas()
 {
+//    $("#debug").html("(" + x0 + ", " + y0 + ")");
     if (!freeze)
     {
 	var m = d3.mouse(this);
@@ -129,39 +171,69 @@ function draw_canvas()
     }
     draw_grids();
     drawUnit()
-
 }
 
 
 function drawUnit(){
     var norm = Math.sqrt(x0*x0+y0*y0);
+    // If user has picked [0, 0], do nothing
+    if (norm < EPSILON)
+	return;
+
+    // else
+    // store user's unit vector and its image under T
+    var tmp_unit = [x0/norm, y0/norm],
+	tmp_image = calculateT(tmp_unit[0], tmp_unit[1]);
+    
     context = d3.select("#domain");
     context.selectAll("path").remove();
+    // clear labels
     context.selectAll("foreignObject").remove();
     
-    context = d3.select("#domain");
     pen.color(pen3).width("1px").fill(pen4).opacity(0.5);
     circle([0, 0], 1);
-    
 
+    /* Draw our stored vectors */
+    pen.color(palette[5]).fill(palette[5]).width("3px").opacity(1);
+    for (var i = 0; i < vector_list.length; ++i)
+	arrow([0, 0], vector_list[i]);
+
+    /* Draw the unnormalized mouse position */
+    pen.color(palette[5]).width("3px").fill(palette[5]).opacity(0.5);
+    arrow([0, 0], [x0, y0]);
+
+    /* Draw the normalized mouse position */
     pen.color(pen1).width("2px").opacity(1);
-    arrow([0, 0], [x0/norm, y0/norm]);
-    label([x0/norm, y0/norm], [0.05*x0/norm, 0.05*y0/norm], "<b>x</b>");
-    //label([x0/norm, y0/norm], [0, 0], "<b>x</b>");
+    arrow([0, 0], tmp_unit);
+    // Mult is scalar multiplication, defined in HC.js
+    label(tmp_unit, Mult(0.05, tmp_unit), "<b>x</b>");
 
+    // Draw the target canvas
     context = d3.select("#target");
     context.selectAll("path").remove();
     context.selectAll("foreignObject").remove();
+
+    // Check for parallel vectors (i.e., an eigenvector), do special drawing
+    if (proportional(tmp_unit, tmp_image))
+    {
+	// Draw the eigenspace
+	pen.color(palette[3]).width("6px").opacity(1);
+	line(Mult(-1.5*sz, tmp_unit), Mult(1.5*sz, tmp_unit));
+
+	/* Not working, not sure why.... */
+	// Use CSS to set border to green 5 pixels wide
+	$("#target").css({"border-width": "5px", "border-color": "green"});
+    }
+    // no "else" branch; just draw the canvas as usual
     
     pen.color(pen1).width("2px").opacity(1);
-    // arrow([0, 0], [x0, y0]);
-    arrow ([0,0],[x0/norm,y0/norm]);
-    label([x0/norm, y0/norm], [0.05*x0/norm, 0.05*y0/norm], "<b>x</b>");
+    arrow ([0,0], tmp_unit);
+    label(tmp_unit, Mult(0.05, tmp_unit), "<b>x</b>");
 
     pen.color(pen2).width("4px").opacity(1);
-    arrow([0, 0], calculateT(x0/norm, y0/norm));
-    label(calculateT(x0/norm, y0/norm), [0.05*x0/norm, 0.05*y0/norm], "<em>T</em>(<b>x</b>)");
-    
+    arrow([0, 0], tmp_image);
+    label(tmp_image, Mult(0.05, tmp_image), "<em>T</em>(<b>x</b>)");
+
     var bd = [];
     var numPts = 120;
     var dTheta = 2*Math.PI/numPts;
@@ -182,4 +254,3 @@ function make_menu()
         mode = "unit"
     });
 }
-
