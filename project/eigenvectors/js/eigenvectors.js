@@ -1,9 +1,9 @@
 var width = 400, height = 400;
-var sz = 3, xmin = -sz, xmax = sz, ymin = -sz, ymax = sz;
+var sz = 6, xmin = -sz, xmax = sz, ymin = -sz, ymax = sz;
 
 var x0, y0;
 // grid parameters
-var ticks = 6, dx = 1/ticks, num_pts = 120;
+var ticks = 4, subticks = 5*ticks, dx = 1/ticks, num_pts = 120;
 
 var freeze = false; // fix mouse position?
 
@@ -227,7 +227,6 @@ function drawUnit(){
     // no "else" branch; just draw the canvas as usual
     
     pen.color(pen1).width("2px").opacity(1);
-    // arrow([0, 0], [x0, y0]);
     arrow ([0,0], tmp_unit);
     label(tmp_unit, Mult(0.05, tmp_unit), "<b>x</b>");
 
