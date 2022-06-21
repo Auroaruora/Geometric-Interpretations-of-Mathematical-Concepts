@@ -9,7 +9,7 @@
   <script src="../../js/d3.js"></script>
   <script src="../../js/HC.js"></script>
   <script src="./js/eigenvectors.js"></script>
-
+   <!-- implement mathjax to display math equation properly -->
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
@@ -28,18 +28,36 @@
   <header>
     <h1>Geometric Interpretation of Eigenvalues, Eigenvectors and Eigenspace</h1>
   </header>
-  
-  <p>
-    $\newcommand{\Reals}{\mathbf{R}}\newcommand{\Vec}[1]{\mathbf{#1}}$Eigenvalue: An eigenvalue of T is a scalar for which there exists a coresponding eigenvector. 
+
+  <!-- define the apperence for math expression -->
+  <p style="display: none;">
+    $\newcommand{\Reals}{\mathbf{R}}$
+    $\newcommand{\Vec}[1]{\mathbf{#1}}$
   </p>
+  <!-- definition of eigenvalue,eigenvectors and eigenspace  -->
+  <p>
+    <b> Eigenvector</b>:An eigenvector of $T$ is an non-zero vector $\Vec{x}$ in $V$
+      such that $T(\Vec{x}) = \lambda \Vec{x}$ for some real number $\lambda$. <br>
+      <b>Geometrically</b>, when we find a vector $\Vec{x}$ that is align with its corresponding 
+      transformation $T(\Vec{x})$ , that vector is an eigenvector of T.
+  </p>
+  <p>
+    <b>Eigenvalue</b> An eigenvalue of $T$ is a scalar for which there exists a 
+    coresponding eigenvector. Geometrically, when we find a eigenvector,the eigenvalue 
+    with be the factor between the eigenvector and its corresponding transformation.
+  </p>
+  <p>
+    <b>Eigenspace</b>: An eigenspace is a collection of eigenvector with respect to a 
+    particular eigenvalue along with vector $\Vec{0}$.In other words, if $\lambda$ is
+     a eigenvalue of of $T$, then the eigenspace is $E_{\lambda} = \{\Vec{x} \in  V| T(\Vec{x})=\lambda v\}$. 
+    If we consider about the kernel, $E_{\lambda}$ can also be repersent as $\ker(\lambda I - T)$
+  </p>
+   <!-- define mapping -->
   <p>
     Let $T:V \to W$ be the linear operator defined by the matrix
     <span id="coefficients"></span> 
   </p>
-  <p>
-    Eigenvector: An eigenvector of $T$ is a vector $\Vec{x}$ in $V$
-    such that $T(\Vec{x}) = \lambda \Vec{x}$ for some real number $\lambda$.
-  </p>
+  
   <div style="display:flex; flex-direction: row; justify-content: center;">
     <div style="text-align:center; margin-left:10px; margin-right: 10px;">
       <span>
