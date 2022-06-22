@@ -14,7 +14,7 @@
     <script src="../../js/jquery.js"></script>
     <script src="../../js/d3.js"></script>
     <script src="../../js/HC.js"></script>
-    <script src="../js/changeBasis.js"></script>
+    <script src="./js/changeBasis.js"></script>
     
     <!-- implement mathjax to display math equation properly -->
     <script type="text/x-mathjax-config">
@@ -36,13 +36,37 @@
       <h1>Geometric Interpretation of Changing Basis</h1>
     </header>
 
+    <!-- define the apperence for math expression -->
+    <p style="display: none;">
+      $\newcommand{\Reals}{\mathbf{R}}$
+      $\newcommand{\Vec}[1]{\mathbf{#1}}$
+    </p>
+
+    <!-- define basis -->
+    <p>
+      Let $V = \Reals^{2}$ 
+    </p>
+    <p>
+      Let $\alpha$ be the standard basis $(\Vec{e_1},\Vec{e_1})$ ,
+      and let $\alpha'$ be the basis consisting of the vectors
+      $\Vec{u_1} = $ 
+      (<input name= "u11" size="2" type="text" id="u11" onchange="GenerateBasis()" value ="2"> ,
+      <input name= "u11" size="2" type="text" id="u11" onchange="GenerateBasis()" value ="1"> )
+      and $\Vec{u_2} = $ 
+      (<input name= "u21" size="2" type="text" id="u11" onchange="GenerateBasis()" value ="1"> ,
+      <input name= "u22" size="2" type="text" id="u11" onchange="GenerateBasis()" value ="1"> )
+    </p>
+    <!-- a set of svg canvas that shows vectors in different basis -->
     <div id="canvas" style="position:relative;">
-        <svg id="standardBasis"
-            style="z-index:1; position:absolute; left:0px; top:0px"></svg>
-        <!-- <svg id="changedBasis"
+        <!-- Draws standard Basis coordinate system -->
+        <svg id="standardBasis" 
+          style="z-index:2; position:absolute; left:0px; top:0px"></svg>
+        <!-- Draws Changed Basis coordinate system -->
+        <svg id="changedBasis"
             style="z-index:2; position:absolute; left:0px; top:0px"></svg>
+        <!-- Helpful vectors to explain the idea of change basis-->>
         <svg id="vectors"
-            style="z-index:3; position:absolute; left:0px; top:0px"></svg> -->
+            style="z-index:3; position:absolute; left:0px; top:0px"></svg>
     </div>
 </body>
 </html>
