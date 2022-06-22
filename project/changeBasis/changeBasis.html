@@ -4,7 +4,7 @@
   
     <title>Geometric Interpretation of Changing Basis</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="shortcut icon" href="../../favicon.ico" />
+    <!-- <link rel="shortcut icon" href="../../favicon.ico" /> -->
 
     <!-- style of the website -->
     <link rel="stylesheet" type="text/css" href="../../css/style.css" />
@@ -50,11 +50,11 @@
       Let $\alpha$ be the standard basis $(\Vec{e_1},\Vec{e_1})$ ,
       and let $\alpha'$ be the basis consisting of the vectors
       $\Vec{u_1} = $ 
-      (<input name= "u11" size="2" type="text" id="u11" onchange="GenerateBasis()" value ="2"> ,
-      <input name= "u11" size="2" type="text" id="u11" onchange="GenerateBasis()" value ="1"> )
+      (<input name= "u11" size="2" type="text" id="u11" onchange="generateBasis()" value ="2"> ,
+      <input name= "u12" size="2" type="text" id="u12" onchange="generateBasis()" value ="1"> )
       and $\Vec{u_2} = $ 
-      (<input name= "u21" size="2" type="text" id="u11" onchange="GenerateBasis()" value ="1"> ,
-      <input name= "u22" size="2" type="text" id="u11" onchange="GenerateBasis()" value ="1"> )
+      (<input name= "u21" size="2" type="text" id="u21" onchange="generateBasis()" value ="1"> ,
+      <input name= "u22" size="2" type="text" id="u22" onchange="generateBasis()" value ="1"> )
     </p>
     <!-- a set of svg canvas that shows vectors in different basis -->
     <div id="canvas" style="position:relative;">
@@ -64,7 +64,7 @@
         <!-- Draws Changed Basis coordinate system -->
         <svg id="changedBasis"
             style="z-index:2; position:absolute; left:0px; top:0px"></svg>
-        <!-- Helpful vectors to explain the idea of change basis-->>
+        <!-- Helpful vectors to explain the idea of change basis-->
         <svg id="vectors"
             style="z-index:3; position:absolute; left:0px; top:0px"></svg>
     </div>
