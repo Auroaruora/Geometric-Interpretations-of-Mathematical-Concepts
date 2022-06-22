@@ -50,7 +50,7 @@ function drawBasis(){
 
 function drawChangedGrids(u1,u2){
     context = d3.select("#changedBasis");
-    context.selectAll("path").remove();
+    context.selectAll("line").remove();
     for(var i = -15; i < 15;i++){
         pen.color(palette[2]).width("2px");
         drawLine(Mult(i,u2),Sum(Mult(i,u2),u1))
