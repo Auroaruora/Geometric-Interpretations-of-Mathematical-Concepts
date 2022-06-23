@@ -47,31 +47,37 @@
       Let $V = \Reals^{2}$ 
     </p>
     <p>
-      Let $st$ be the standard basis $(\Vec{e_1},\Vec{e_1})$ ,
+      Let $st$ be the standard basis $(\Vec{e_1},\Vec{e_2})$ ,
       and let $\alpha$ be the basis consisting of the vectors
     </p>
     <p>
       $\Vec{u_1} = $ 
-      (<input name= "u11" size="2" type="text" id="u11" onchange="drawBasis()" value ="5"> ,
+      (<input name= "u11" size="2" type="text" id="u11" onchange="drawBasis()" value ="2"> ,
       <input name= "u12" size="2" type="text" id="u12" onchange="drawBasis()" value ="1"> )
       and $\Vec{u_2} = $ 
       (<input name= "u21" size="2" type="text" id="u21" onchange="drawBasis()" value ="2"> ,
-      <input name= "u22" size="2" type="text" id="u22" onchange="drawBasis()" value ="4"> )
+      <input name= "u22" size="2" type="text" id="u22" onchange="drawBasis()" value ="3"> )
     </p>
     <p>
       Select an arbitary 
     </p>
+    <span id="transitionMatrices"></span>
+    <button type="button" id="showChangedGrid" onclick="showHideChangeGrid()">Show Grid base on $\alpha$ basis </button>
     <!-- a set of svg canvas along with it's lable -->
     <div id="canvas" style="position:relative;">
       <!-- Draws standard Basis coordinate system -->
       <svg id="standardBasis" 
-        style="z-index:2; position:absolute; left:0px; top:0px"></svg>
+        style="z-index:1; position:absolute; left:0px; top:0px"></svg>
       <!-- Draws Changed Basis coordinate system -->
       <svg id="changedBasis"
           style="z-index:2; position:absolute; left:0px; top:0px"></svg>
-      <!-- Helpful vectors to explain the idea of change basis-->
-      <svg id="vectors"
+      <!-- Helpful information and vectors to explain the idea of change basis-->
+      <svg id="info"
           style="z-index:3; position:absolute; left:0px; top:0px"></svg>
+      <!-- interactive layer that gets redraw frequently -->
+      <svg id="interact"
+          style="z-index:4; position:absolute; left:0px; top:0px"></svg>
+      
     </div>
 </body>
 </html>
