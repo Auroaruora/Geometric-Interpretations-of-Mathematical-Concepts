@@ -94,38 +94,30 @@ function updateMatrix()
         u22 = basis[1][1];
     var det = u11*u22 - u21*u12 ;
     if(det!=0){
-        inverseMatrix[0][0] = 1/det*u22;
-        inverseMatrix[0][1] = -1/det*u21
-        inverseMatrix[1][0] = 1/det*u12;
-        inverseMatrix[1][1] = -1/det*u11;
+        inverseMatrix[0][0] = new Ratl(u22/det);
+        inverseMatrix[0][1] = new Ratl(u21/det);
+        inverseMatrix[1][0] = new Ratl(u12/det);
+        inverseMatrix[1][1] = new Ratl(u11/det);
     }
-    
-	det_sign = 1; // store sign of determinant
-
-    if (det <= 0)
-	det_sign = -1;
-
-    det *= det_sign; // replace determinant by absolute value
 
     // Do whatever with these values, then write the matrices P and P^{-1}
-    var matrix_string = "$$P = \\left[\\begin{array}{@{}rr@{}}";
-    matrix_string += u11 + "&" + u12 + "\\\\";
-    matrix_string += u21 + "&" + u22 + "\\\\ \\end{array}\\right]";
+    var matrixString = "$$P = \\left[\\begin{array}{@{}rr@{}}";
+    matrixString += u11 + "&" + u12 + "\\\\";
+    matrixString += u21 + "&" + u22 + "\\\\ \\end{array}\\right]";
+    
+    // P is invertible; write code for P^{-1}
+    if (det != 0) {
+	    matrixString += ",\\qquad P^{-1} = ";
 
-    if (det != 0) // P is invertible; write code for P^{-1}
-    {
-	matrix_string += ",\\qquad P^{-1} = ";
-
-	if (1 != det) // Write \frac{1}{determinant} unless this is 1
-	    matrix_string += "\\frac{1}{" + det + "}";
-
-	matrix_string += "\\left[\\begin{array}{@{}rr@{}}";
-	matrix_string +=  det_sign*u22 + "&" + -det_sign*u12 + "\\\\";
-	matrix_string += -det_sign*u21 + "&" +  det_sign*u11 + "\\\\ \\end{array}\\right]";
+	    matrixString += "\\left[\\begin{array}{@{}rr@{}}";
+	    matrixString +=  inverseMatrix[0][0]+ "&" +  inverseMatrix[0][1] + "\\\\";
+	    matrixString +=  inverseMatrix[1][0] + "&" +   inverseMatrix[1][1] + "\\\\ \\end{array}\\right]";
+    }else{
+        matrixString += "P is not invertible."
     }
-    matrix_string += ".$$"; // close up displayed equation
+    matrixString += ".$$"; // close up displayed equation
 
-    $("#transitionMatrices").html(matrix_string); // write into the document
+    $("#transitionMatrices").html(matrixString); // write into the document
     //MathJax.typeset(); // and typeset
 }
 
