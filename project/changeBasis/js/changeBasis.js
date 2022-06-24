@@ -19,6 +19,7 @@ var showGrid = false;
 
 var basis = [[],[]];
 var inverseMatrix = [[],[]];
+var coefficent = [];
 
 var camera = new Camera();
 var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
@@ -49,7 +50,11 @@ function freezeV(){
 
 function drawV(){
     //select the vectors convas
+    
     if (!freeze){
+        var m = d3.mouse(this);
+        x0 = rect_map.x(m[0]);
+        y0 = rect_map.y(m[1]);
         context = d3.select("#interact");
 
         //remove all the pervious vectors on "vectors" layer
@@ -57,9 +62,22 @@ function drawV(){
 
         //draw current vector
         pen.color(palette[7]).width("4px");
-        var m = d3.mouse(this);
-        arrow([0, 0],[rect_map.x(m[0]), rect_map.y(m[1])]);
+        
+        arrow([0, 0],[x0,y0]);
+
+        //draw auxiliary line
+        var v11 = inverseMatrix[0][0].toFloat(),
+            v12 = inverseMatrix[0][1].toFloat(),
+            v21 = inverseMatrix[1][0].toFloat(),
+            v22 = inverseMatrix[1][1].toFloat();
+
+        coefficent[0]= v11 * x0 + v12 * y0;
+        console.log(coefficent[0]);
+        coefficent[1]= v21* x0 + v22 * y0;
+        arrow([0,0],[coefficent[0]*basis[0][0],coefficent[0]*basis[0][1]]);
+        arrow([0,0],[coefficent[1]*basis[1][0],coefficent[1]*basis[1][1]]);
     }
+ 
 }
 
 function drawStandardGrids(){
@@ -94,10 +112,10 @@ function updateMatrix()
         u22 = basis[1][1];
     var det = u11*u22 - u21*u12 ;
     if(det!=0){
-        inverseMatrix[0][0] = new Ratl(u22/det);
-        inverseMatrix[0][1] = new Ratl(u21/det);
-        inverseMatrix[1][0] = new Ratl(u12/det);
-        inverseMatrix[1][1] = new Ratl(u11/det);
+        inverseMatrix[0][0] = new Ratl(u22,det);
+        inverseMatrix[0][1] = new Ratl(-u12,det);
+        inverseMatrix[1][0] = new Ratl(-u21,det);
+        inverseMatrix[1][1] = new Ratl(u11,det);
     }
 
     // Do whatever with these values, then write the matrices P and P^{-1}
@@ -110,8 +128,8 @@ function updateMatrix()
 	    matrixString += ",\\qquad P^{-1} = ";
 
 	    matrixString += "\\left[\\begin{array}{@{}rr@{}}";
-	    matrixString +=  inverseMatrix[0][0]+ "&" +  inverseMatrix[0][1] + "\\\\";
-	    matrixString +=  inverseMatrix[1][0] + "&" +   inverseMatrix[1][1] + "\\\\ \\end{array}\\right]";
+	    matrixString +=  inverseMatrix[0][0].toStringX()+ "&" + inverseMatrix[0][1].toStringX() + "\\\\";
+	    matrixString +=  inverseMatrix[1][0].toStringX() + "&" + inverseMatrix[1][1].toStringX() + "\\\\ \\end{array}\\right]";
     }else{
         matrixString += "P is not invertible."
     }

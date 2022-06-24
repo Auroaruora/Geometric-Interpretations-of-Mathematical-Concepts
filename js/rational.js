@@ -164,16 +164,13 @@ Ratl.prototype.toStringX = function()
 {
     var value = "", pos_num = Math.abs(this.m_num);
     if (this.m_num < 0)
-	value += "\\left(-";
+	value += "-";
 
     if (this.m_denom !== 1)
 	value += "\\tfrac{" + pos_num + "}{" + this.m_denom + "}";
 
     else
 	value += pos_num;
-
-    if (this.m_num < 0)
-	value += "\\right)";
 
     return value;
 }
