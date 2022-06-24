@@ -10,6 +10,9 @@ var freeze = false; // fix mouse position?
 // Matrix 
 var matrix = [[],[]];
 
+// Eigenvalues
+var Eigenvalues = [[],[]]
+
 // vectors we'll draw
 var vector_list = []
 
@@ -45,8 +48,61 @@ $(document).ready(function() {
     make_coefficient_table();
     //set_coefficients();
     generate_Matrix()
-    
+    solve ()
 });
+
+function solve(){
+    var trA = matrix[0][0] + matrix[1][1],
+        detA = matrix[0][0]*matrix[1][1]-matrix[0][1]*matrix[1][0];
+    var test = trA*trA-4*detA;
+    var message;
+    message +='<p> ';
+    if(test < 0){
+        message+='There is no eigenvalue for this matrix.';
+    }else if(test == 0){
+        message+='There is one eigenvalue for this matrix.';
+        if(Math.sqrt(test) % 1 === 0){
+            var numerator = trA + Math.sqrt(test);
+            if(numerator%2==0){
+                var sol = numerator/2;
+                message+= sol;
+            }else{
+                message+='$\\frac{' + numerator + '}{2}'
+            }
+            
+        }else{
+            message+='$\\frac{1}{2}[' + trA + '+\\sqrt{' + test + '}]$';
+        }
+        
+        
+    }else{
+        message+='There are two eigenvalue for this matrix.'
+        if(Math.sqrt(test) % 1 === 0){
+            var numerator1 = trA + Math.sqrt(test);
+            var numerator2 = trA - Math.sqrt(test);
+            if(numerator1%2==0){
+                var sol = numerator1 / 2;
+                message+= sol;
+            }else{
+                message+='$\\frac{' + numerator1 + '}{2}'
+            }
+
+            if(numerator2%2==0){
+                var sol = numerator2 / 2;
+                message+= sol;
+            }else{
+                message+='$\\frac{' + numerator2 + '}{2}'
+            }
+            
+        }else{
+            message+='$\\frac{1}{2}[' + trA + '+\\sqrt{' + test + '}]$, ';
+            message+='$\\frac{1}{2}[' + trA + '-\\sqrt{' + test + '}]$';
+        }
+    }
+    message +='</p>'
+    $("#explaination").html(message);
+
+}
 
 function generate_Matrix()
 {
@@ -57,6 +113,7 @@ function generate_Matrix()
 
     /* If matrix changes, re-set the list of vectors to be drawn */
     vector_list = [];
+    solve();
 }
 
 function make_coefficient_table()
@@ -89,7 +146,7 @@ function make_coefficient_table()
 	    var nm='a' + i + j,
 		//coeff = -((1 + i + j) )% 2;
 		/* Randomly generate initial matrix entrues */
-		coeff = 0.85*sz*Math.random();
+		coeff = Math.round(4*(-1+2*Math.random()));
 	    // Compose the <td> line
 	    message += '<td>\n';
 	    message += '\\(a_{' + i + j + '} = \\)'; // MathJaX string
