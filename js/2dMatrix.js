@@ -23,7 +23,7 @@ Matrix.prototype.tr = function()
 {
     return this.a11 + this.a22;
 }
-// the argument should be an array contain 2 element 
+// the argument should be an array contain 2 element
 // the return an array contain 2 element 
 Matrix.prototype.vectorProduct= function(arg)
 {
@@ -35,4 +35,8 @@ Matrix.prototype.inverse = function()
     var idet = this.det();
 
     return new Matrix(this.name+"^{-1}",this.a22/idet,-this.a12/idet,-this.a21/idet,this.a11/idet);
+}
+
+Matrix.prototype.eigenvectors = function(){
+
 }
