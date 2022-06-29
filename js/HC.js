@@ -787,7 +787,7 @@ function HC_label(context, location, offset, text, size, rect_map, camera, pen)
 	    "width": size[0],
 	    "height": size[1]
 	})
-	.html("<div>" + text + "</div>");
+	.html("<span>" + text + "</span>");
 }
 
 function HC_arrow(context, tail, head, rect_map, camera, pen)
