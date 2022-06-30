@@ -72,9 +72,9 @@ function drawV(){
             v22 = inverseMatrix[1][1].toFloat();
 
         coefficent[0]= v11 * x0 + v12 * y0;
-        console.log(coefficent[0]);
         coefficent[1]= v21* x0 + v22 * y0;
         arrow([0,0],[coefficent[0]*basis[0][0],coefficent[0]*basis[0][1]]);
+        
         arrow([0,0],[coefficent[1]*basis[1][0],coefficent[1]*basis[1][1]]);
     }
  
@@ -151,10 +151,30 @@ function BasisInfo(){
     drawLine([0,0],basis[1]);
 
     pen.color(palette[8]).width("5px");
-    arrow([0, 0], basis[0]);
-    arrow([0, 0], basis[1]); 
+    arrow([0, 0], basis[0],"u1");
+    $("#u1").bind("mouseover", BasisHighlight("u1"));
+    $("#u1").bind("mouseout", BasisRemoveHighlight("u1"));
+    arrow([0, 0], basis[1],"u2"); 
+    $("#u2").bind("mouseover", BasisHighlight("u2"));
+    $("#u2").bind("mouseout", BasisRemoveHighlight("u2"));
 
     
+}
+
+function BasisHighlight(arg1){
+   
+    context = d3.select("#info"); 
+    var temp = "#"+ arg1;
+    $(temp).remove();
+    pen.color(palette[7]).width("8px");
+    arrow([0, 0], basis[0],arg1);
+}
+function BasisRemoveHighlight(arg1){
+    context = d3.select("#info"); 
+    var temp = "#"+ arg1;
+    $(temp).remove();
+    pen.color(palette[8]).width("5px");
+    arrow([0, 0], basis[0],arg1);
 }
 
 function showHideChangeGrid(){
