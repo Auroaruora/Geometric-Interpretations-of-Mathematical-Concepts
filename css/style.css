@@ -6,10 +6,11 @@ body {
 
 /* Paragraphs */
 p {
-  text-align: justify;
-  text-indent: 3em;
+
+  text-align: left;
+  text-indent: 0em;
   line-height: 3ex;
-  margin: 0ex;
+  margin: 3ex;
 }
 
 /* Special headers for top-level title */
@@ -20,7 +21,7 @@ h1 {
   margin: 0em;
 }
 
-h2, h3 {
+h2, h3, h4 {
   text-align: center;
   padding-top: 1ex;
   padding-bottom: 1ex;

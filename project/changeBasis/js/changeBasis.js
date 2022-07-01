@@ -46,6 +46,15 @@ $(document).ready(function() {
 
 function freezeV(){
     freeze = !freeze;
+    if (freeze){
+        infoV();
+    }
+}
+function infoV(){
+    var infoString = "<p> $\Vec{v}$ = (0,2)</p>"
+    inforString += "<p>$\Vec{v}$ in terms of </p>"
+    inforString += "<p></p>"
+    $("#inforV").html(infoString); // write into the document
 }
 
 function drawV(){
@@ -119,24 +128,22 @@ function updateMatrix()
     }
 
     // Do whatever with these values, then write the matrices P and P^{-1}
-    var matrixString = "$$P = \\left[\\begin{array}{@{}rr@{}}";
-    matrixString += u11 + "&" + u12 + "\\\\";
-    matrixString += u21 + "&" + u22 + "\\\\ \\end{array}\\right]";
+    var atos = "$\\left[\\begin{array}{@{}rr@{}}";
+    atos += u11 + "&" + u12 + "\\\\";
+    atos += u21 + "&" + u22 + "\\\\ \\end{array}\\right]$";
+    $("#ItransAtoS").html(atos);
     
     // P is invertible; write code for P^{-1}
+        var stoa = "";
     if (det != 0) {
-	    matrixString += ",\\qquad P^{-1} = ";
-
-	    matrixString += "\\left[\\begin{array}{@{}rr@{}}";
-	    matrixString +=  inverseMatrix[0][0].toStringX()+ "&" + inverseMatrix[0][1].toStringX() + "\\\\";
-	    matrixString +=  inverseMatrix[1][0].toStringX() + "&" + inverseMatrix[1][1].toStringX() + "\\\\ \\end{array}\\right]";
+	    stoa += "$\\left[\\begin{array}{@{}rr@{}}";
+	    stoa +=  inverseMatrix[0][0].toStringX()+ "&" + inverseMatrix[0][1].toStringX() + "\\\\";
+	    stoa +=  inverseMatrix[1][0].toStringX() + "&" + inverseMatrix[1][1].toStringX() + "\\\\ \\end{array}\\right]$";
     }else{
-        matrixString += "P is not invertible."
+        stoa += "Not Invertable. Try another basis."
     }
-    matrixString += ".$$"; // close up displayed equation
-
-    $("#transitionMatrices").html(matrixString); // write into the document
-    //MathJax.typeset(); // and typeset
+    $("#ItransStoA").html(stoa); // write into the document
+    MathJax.typeset(); // and typeset
 }
 
 function BasisInfo(){

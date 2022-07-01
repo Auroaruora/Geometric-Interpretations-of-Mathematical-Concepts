@@ -821,7 +821,7 @@ function HC_arrow(context, tail, head, rect_map, camera, pen)
 
 	return context.append("path")
 	    .datum(data)
-	    .attr("d", line_fcn)
+	    .attr("d", line_fcn)       
 	    .style("stroke", pen.m_color)
 	    .style("stroke-width", pen.m_width)
 	    .style("fill", pen.m_color)
