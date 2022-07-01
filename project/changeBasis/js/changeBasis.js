@@ -132,18 +132,21 @@ function updateMatrix()
     atos += u11 + "&" + u12 + "\\\\";
     atos += u21 + "&" + u22 + "\\\\ \\end{array}\\right]$";
     $("#ItransAtoS").html(atos);
-    
+    console.log("1");
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub,"ItransAtoS"]);
     // P is invertible; write code for P^{-1}
-        var stoa = "";
+    console.log("1");
+    var stoa = "";
     if (det != 0) {
 	    stoa += "$\\left[\\begin{array}{@{}rr@{}}";
 	    stoa +=  inverseMatrix[0][0].toStringX()+ "&" + inverseMatrix[0][1].toStringX() + "\\\\";
 	    stoa +=  inverseMatrix[1][0].toStringX() + "&" + inverseMatrix[1][1].toStringX() + "\\\\ \\end{array}\\right]$";
+        console.log("1");
     }else{
         stoa += "Not Invertable. Try another basis."
     }
     $("#ItransStoA").html(stoa); // write into the document
-    MathJax.typeset(); // and typeset
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub,"ItransStoA"]);
 }
 
 function BasisInfo(){
