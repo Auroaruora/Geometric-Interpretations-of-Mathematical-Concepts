@@ -3,14 +3,21 @@ Vector = function(iname, ihead, icolor){
     this.name = iname;
     this.head = ihead;
     this.color = icolor;
-    this.isVisible = true;
     this.isHiglighted = false;
-    this.isFr
+    this.isFreeze = false;
     
 }
 Vector.prototype.initialize = function(){
     arrow([0,0],head,iname);
     $(this.name).bind("mouseout mouseover",changeHiglight());
+}
+
+Vector.prototype.draw = function(){
+}
+Vector.prototype.remove = function(){
+}
+Vector.prototype.changefreeze = function(){
+
 }
 
 
