@@ -23,5 +23,8 @@ $(document).ready(function() {
     //v1.remove();
     //v1.draw();
 
+    //testing svg relocating 
+    
+
 
 });     
