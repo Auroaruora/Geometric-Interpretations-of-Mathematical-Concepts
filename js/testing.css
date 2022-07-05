@@ -1,7 +1,21 @@
 .highlightVector{
-
+    filter: brightness(1.25);
 }
 
 .unhighlightVector{
+    filter: brightness(0.85);
+}
 
+input{
+    stroke: inherit;
+}
+
+path{
+    stroke-width:2px;
+    stroke:"#000"
+}
+
+.highlight{
+    stroke-width:4px;
+    stroke:"#000"
 }

@@ -119,6 +119,11 @@ Rect_Map.prototype.v_height = function()
     return this.vmax;
 }
 
+function arrow(tail, head, ident)
+{
+    return HC_arrow(context, tail, head, rect_map, ident);
+}
+
 function HC_arrow(context, tail, head, rect_map, ident)
 {
     if (!ident)

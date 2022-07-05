@@ -5,13 +5,17 @@
     <title>Testing</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="./jquery.js"></script>
-    <script src="./2dMatrix.js"></script>
+    <script src="./d3.js"></script>
+    <script src="./HC.js"></script>
+    <!-- <script src="./2dMatrix.js"></script> -->
+    <script src="./Vector.js"></script>
     <script src="./testing.js"></script>
-    <script src="./HCsummer22.js"></script>
-    <link rel="stylesheet" type="text/css" href="testing.css" />
+    
+    <!-- <link rel="stylesheet" type="text/css" href="testing.css" /> -->
+    <link rel="stylesheet" type="text/css" href="svgstyle.css" />
     
     <!-- implement mathjax to display math equation properly -->
-    <script type="text/x-mathjax-config">
+    <!-- <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
           tex2jax: {
             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
@@ -22,10 +26,13 @@
     <script type="text/javascript" charset="utf-8" 
         src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,
         https://vincenttam.github.io/javascripts/MathJaxLocal.js">
-    </script>
+    </script> -->
 </head>
 
 <body>
-    <svg id = "testing"></svg>
+    <svg class="initializeCanvas">
+      <!-- actually represent(10,20) -->
+      <line x1="0" y1="0" x2="10" y2="20" class= "normal">
+    </svg>
 </body>
 </html>
