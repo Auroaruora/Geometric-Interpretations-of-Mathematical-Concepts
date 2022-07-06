@@ -120,6 +120,12 @@ Ratl = function(num, denom)
     this.normalize();
 }
 
+Ratl.prototype.change = function(arg1,arg2)
+{
+    this.m_num = arg1;
+    this.m_denom = arg2;
+}
+
 Ratl.prototype.clone = function()
 {
     return new Ratl(this.m_num, this.m_denom);

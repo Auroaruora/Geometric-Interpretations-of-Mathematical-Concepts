@@ -18,7 +18,7 @@ var freeze = false;
 var showGrid = false;
 
 var basis = [[],[]];
-var inverseMatrix = [[],[]];
+var inverseMatrix = [[new Ratl(),new Ratl()],[new Ratl(),new Ratl()]];
 var coefficent = [];
 
 var camera = new Camera();
@@ -26,23 +26,73 @@ var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
 var pen = new Pen();
 
 $(document).ready(function() {
+
+    assignMatrix();
+    console.log(basis[0][0]);
     
+    updateMatrix();
+
     initialize_canvas("standardBasis", width, height);
     initialize_canvas("changedBasis", width, height);
     initialize_canvas("info", width, height);
     initialize_canvas("interact", width, height);
-
+    drawBasis();
     //bound function to some mouse events.
     context = d3.select("#interact");
     context.on("click", freezeV)
            .on("mousemove", drawV);
-
     //draw useful information
     drawStandardGrids();
-    BasisInfo();
-   
-
 });
+
+function assignMatrix()
+{
+    basis[0][0] = parseFloat($("#u11").val());
+    basis[0][1] = parseFloat($("#u12").val());
+    basis[1][0] = parseFloat($("#u21").val());
+    basis[1][1] = parseFloat($("#u22").val());
+
+    var u11 = basis[0][0],
+        u12 = basis[1][0],
+        u21 = basis[0][1],
+        u22 = basis[1][1];
+    var det = u11*u22 - u21*u12 ;
+    // computeInverse
+    if(det!=0){
+        inverseMatrix[0][0] = inverseMatrix[0][0].chnage(u22,det);
+        inverseMatrix[0][1] = inverseMatrix[0][1].chnage(-u12,det);
+        inverseMatrix[1][0] = inverseMatrix[1][0].chnage(-u21,det);
+        inverseMatrix[1][1] = inverseMatrix[1][1].chnage(u11,det);
+    }else{
+        inverseMatrix[0][0] = inverseMatrix[0][0].chnage(0,0);
+        inverseMatrix[0][1] = inverseMatrix[0][0].chnage(0,0);
+        inverseMatrix[1][0] = inverseMatrix[0][0].chnage(0,0);
+        inverseMatrix[1][1] = inverseMatrix[0][0].chnage(0,0);
+    }
+}
+
+function updateMatrix(){
+    // Do whatever with these values, then write the matrices P and P^{-1}
+    var temp = printMatrix(basis);
+    $("#ItransAtoS").html(temp);
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub,"ItransAtoS"]);
+    // P is invertible; write code for P^{-1}
+    console.log("1");
+    if (det != 0) {
+	   temp = printMatrix(inverseMatrix);
+    }else{
+        temp = "Not Invertable. Try another basis."
+    }
+    $("#ItransStoA").html(temp); // write into the document
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub,"ItransStoA"]);
+}
+
+function printMatrix(A){
+    var info = "$\\left[\\begin{array}{@{}rr@{}}";
+    info += A[0][0] + "&" + A[0][1] + "\\\\";
+    info += A[1][0] + "&" + A[1][1] + "\\\\ \\end{array}\\right]$";
+    return info;
+}
 
 function freezeV(){
     freeze = !freeze;
@@ -98,12 +148,6 @@ function drawStandardGrids(){
     line([0, ymin],[0,ymax]);
 }
 
-function changeBasis(){
-    basis[0][0] = parseFloat($("#u11").val());
-    basis[0][1] = parseFloat($("#u12").val());
-    basis[1][0] = parseFloat($("#u21").val());
-    basis[1][1] = parseFloat($("#u22").val());
-}
 /*
  * This function writes LaTeX code for transition matrices P and P^{-1} into
  * a document element with id="transition_matrices". It assumes all vectors
@@ -112,49 +156,16 @@ function changeBasis(){
  * typographical result may look strange.
  */
 
-function updateMatrix()
-{
-    // computeInverse
-    var u11 = basis[0][0],
-        u12 = basis[1][0],
-        u21 = basis[0][1],
-        u22 = basis[1][1];
-    var det = u11*u22 - u21*u12 ;
-    if(det!=0){
-        inverseMatrix[0][0] = new Ratl(u22,det);
-        inverseMatrix[0][1] = new Ratl(-u12,det);
-        inverseMatrix[1][0] = new Ratl(-u21,det);
-        inverseMatrix[1][1] = new Ratl(u11,det);
-    }
 
-    // Do whatever with these values, then write the matrices P and P^{-1}
-    var atos = "$\\left[\\begin{array}{@{}rr@{}}";
-    atos += u11 + "&" + u12 + "\\\\";
-    atos += u21 + "&" + u22 + "\\\\ \\end{array}\\right]$";
-    $("#ItransAtoS").html(atos);
-    console.log("1");
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub,"ItransAtoS"]);
-    // P is invertible; write code for P^{-1}
-    console.log("1");
-    var stoa = "";
-    if (det != 0) {
-	    stoa += "$\\left[\\begin{array}{@{}rr@{}}";
-	    stoa +=  inverseMatrix[0][0].toStringX()+ "&" + inverseMatrix[0][1].toStringX() + "\\\\";
-	    stoa +=  inverseMatrix[1][0].toStringX() + "&" + inverseMatrix[1][1].toStringX() + "\\\\ \\end{array}\\right]$";
-        console.log("1");
-    }else{
-        stoa += "Not Invertable. Try another basis."
-    }
-    $("#ItransStoA").html(stoa); // write into the document
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub,"ItransStoA"]);
-}
 
-function BasisInfo(){
-    //set the basis to the current
-    changeBasis();
-    updateMatrix();
+
+
+
+
+function drawBasis(){
     context = d3.select("#info");
     context.selectAll("path").remove();
+    context.selectAll("line").remove();
 
     pen.color(palette[4]).width("4px");
     drawLine([0,0],basis[0]);
@@ -162,13 +173,7 @@ function BasisInfo(){
 
     pen.color(palette[8]).width("5px");
     arrow([0, 0], basis[0],"u1");
-    $("#u1").bind("mouseover", BasisHighlight("u1"));
-    $("#u1").bind("mouseout", BasisRemoveHighlight("u1"));
     arrow([0, 0], basis[1],"u2"); 
-    $("#u2").bind("mouseover", BasisHighlight("u2"));
-    $("#u2").bind("mouseout", BasisRemoveHighlight("u2"));
-
-    
 }
 
 function BasisHighlight(arg1){
