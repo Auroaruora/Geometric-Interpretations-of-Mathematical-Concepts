@@ -1,8 +1,8 @@
-// Hight and width of the canvas
-    const width = 400, height = 400;
-    //coordinate range for the canvas
-    const sz = 5, xmin = -sz, xmax = sz, ymin = -sz, ymax = sz;
-    var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
+// // Hight and width of the canvas
+//     const width = 400, height = 400;
+//     //coordinate range for the canvas
+//     const sz = 5, xmin = -sz, xmax = sz, ymin = -sz, ymax = sz;
+//     var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
 
 $(document).ready(function() {
 
@@ -16,10 +16,12 @@ $(document).ready(function() {
     //Vector Class testing 
 
     
-    initialize_canvas("testing", width, height);
+    // initialize_canvas("testing", width, height);
     context = d3.select("#testing");
-    var v1 = new Vector2("v1",[2,1],"#0000ff");
-    $("#v1").addClass("highlight");
+    // var v1 = new Vector2("v1",[2,1],"#0000ff");
+    $("#v1").addClass("highlight", true);
+    //$("#v1").addClass("relocate", true);
+    //$("#v1").addClass("highlight", false);
     //v1.remove();
     //v1.draw();
 

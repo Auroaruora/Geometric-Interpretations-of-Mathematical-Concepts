@@ -1,14 +1,17 @@
 .normal {
-    /* transform: rotate(90deg)
-               translate(200px,200px); */
                stroke:rgb(188, 148, 225);
                stroke-width: 2;
+               transform: translate(0px 0px)
+                rotateY('0');
 }
 
-.initializeCanvas{
-    width:400px;
-    height:400px;
-    overflow:visible;
-    overflow-x: visible;
-    overflow-y: visible;
+
+.highlight{
+    stroke:rgb(148, 225, 169);
+    stroke-width: 4;
+}
+
+.relocate{
+    transform: translate(200px 200px)
+                rotateY('180');
 }
