@@ -152,7 +152,7 @@ Ratl.prototype.toString = function()
 {
     var value = "";
     if (this.m_num < 0)
-	value += "(";
+	value += "";
 
     value += this.m_num;
 
@@ -160,7 +160,7 @@ Ratl.prototype.toString = function()
 	value += "/" + this.m_denom;
 
     if (this.m_num < 0)
-	value += ")";
+	value += "";
 
     return value;
 }

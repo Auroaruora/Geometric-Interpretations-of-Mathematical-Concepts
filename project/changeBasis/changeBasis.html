@@ -57,24 +57,26 @@
       </p>
       <div style = "text-align: center;">
         $\Vec{u_1} =$
-        (<input name= "u11" size="2" type="text" id="u11" onchange="BasisInfo()" value ="2"> ,
-        <input name= "u12" size="2" type="text" id="u12" onchange="BasisInfo()" value ="1"> )
+        (<input name= "u11" size="2" type="text" id="u11" onchange="reset()" value ="2"> ,
+        <input name= "u12" size="2" type="text" id="u12" onchange="reset()" value ="1"> )
         $\Vec{u_2} = $
-        (<input name= "u21" size="2" type="text" id="u21" onchange="BasisInfo()" value ="2"> ,
-        <input name= "u22" size="2" type="text" id="u22" onchange="BasisInfo()" value ="3"> )
+        (<input name= "u21" size="2" type="text" id="u21" onchange="reset()" value ="2"> ,
+        <input name= "u22" size="2" type="text" id="u22" onchange="reset()" value ="3"> )
       </div>
       <!-- define Identity transformations -->
       <p>Based on the information provided above, we have the following identity transformations: </p>
       <div style = "text-align: center;">
         $[I]_{\alpha}^{\std} = $ <span id = "ItransAtoS"></span>
         $\qquad 
-        ([I]_{\alpha}^{\std})^{-1} =  [I]_{\std}^{\alpha} = $ <span id = "ItransStoA"></span>
+        ([I]_{\alpha}^{\std})^{-1} =  [I]_{\std}^{\alpha} = $ &nbsp <span id = "ItransStoA"></span>
       </div>
 
       <span id="transitionMatrices"></span>
 
       <button type="button" id="showChangedGrid" onclick="showHideChangeGrid()">Show Grid base on $\alpha$ basis </button>
-
+      <div style="text-align:center; margin-left:10px; margin-right: 10px;">
+          <span id="infoV"></span>
+        </div>
       <div style="display:flex; flex-direction: row; justify-content: center;">
       <!-- a set of svg canvas along with it's lable -->
         <div id="canvas" style="position:relative; text-align:center; margin-left:10px; margin-right: 10px;">
@@ -90,10 +92,6 @@
           <!-- interactive layer that gets redraw frequently -->
           <svg id="interact"
               style="z-index:4; position:absolute; left:0px; top:0px"></svg>
-        </div>
-
-        <div style="text-align:center; margin-left:10px; margin-right: 10px;">
-          <span id="infoV"></span>
         </div>
       </div>
   </body>
