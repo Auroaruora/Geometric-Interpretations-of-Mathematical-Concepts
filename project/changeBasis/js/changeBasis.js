@@ -32,11 +32,10 @@ $(document).ready(function() {
     initialize_canvas("standardBasis", width, height);
     drawStandardGrids();
     initialize_canvas("changedBasis", width, height);
-    initialize_canvas("info", width, height);
-    //initialize_canvas("interact", width, height);
+    initialize_canvas("vectors", width, height);
     reset();
     //bound function to some mouse events.
-    context = d3.select("#interact");
+    context = d3.select("#vectors");
     context.on("click", freezeV)
            .on("mousemove", drawV);
     
@@ -50,6 +49,7 @@ function drawStandardGrids(){
     line([xmin, 0],[xmax,0]);
     line([0, ymin],[0,ymax]);
 }
+
 function reset(){
     assignMatrix();
     updateMatrix();
@@ -104,7 +104,7 @@ function printMatrix(A){
     return info;
 }
 function drawBasis(){
-    context = d3.select("#info");
+    context = d3.select("#vectors");
     context.selectAll("path").remove();
     context.selectAll("line").remove();
 
@@ -116,20 +116,18 @@ function drawBasis(){
     higlightableArrow([0, 0], u1,"u1");
     higlightableArrow([0, 0], u2,"u2"); 
 }
+
 function drawV(){
     //select the vectors convas
     if (!freeze){
         var m = d3.mouse(this);
-        x0 = rect_map.x(m[0]);
-        y0 = rect_map.y(m[1]);
-        context = d3.select("#interact");
-
-        //remove all the pervious vectors on "vectors" layer
-        context.selectAll("path").remove();
+        x0 = rect_map.x(m[0]).toFixed(2);
+        y0 = rect_map.y(m[1]).toFixed(2);
+        //redraw the basis (will remove all existing vectors on canvas before redraw)
+        drawBasis();
 
         //draw current vector
         pen.color(palette[7]).width("4px");
-        
         arrow([0, 0],[x0,y0]);
 
         //draw auxiliary line
@@ -146,6 +144,7 @@ function drawV(){
     }
  
 }
+
 function freezeV(){
     freeze = !freeze;
     if (freeze){
@@ -156,12 +155,13 @@ function freezeV(){
 }
 function infoV(){
     /* To-do information in ipad */
-    var infoString = "<p> $\Vec{v}$ = (0,2)</p>"
-    //inforString += "<p>$\Vec{v}$ in terms of </p>"
-    //inforString += "<p></p>"
+    var infoString = "<p> $\\Vec{v}$ = ("+x0+","+y0+"2)</p>"
+    infoString += "<p>$\\Vec{v}$ in terms of $\\std$ basis: </p>"
+    infoString += "<p>$\\Vec{v}$ = "+x0+"$\\Vec{e_1}$ + "+y0+" $\\Vec{e_2}$ </p>"
     $("#infoV").html(infoString); // write into the document
     MathJax.Hub.Queue(["Typeset",MathJax.Hub,"infoV"]);
 }
+
 function showHideChangeGrid(){
     showGrid =!showGrid;
     //remove the previous grids
@@ -213,25 +213,6 @@ function higlightableArrow(tail, head, ident)
     });
 }
 
-function basisHighlight(){ 
-    //$("#u1").remove();
-    // pen.color(palette[1]).width("10px");
-    // arrow([0, 0], u1,"u1high");
-    //$("#u1").bind("moseover", basisHighlight);
-    $("#u1").css("stroke-width",10);
-}   
-function BasisRemoveHighlight(arg1){
-    context = d3.select("#info"); 
-    var temp = "#"+ arg1;
-    $(temp).remove();
-    pen.color(palette[8]).width("5px");
-    arrow([0, 0], u1,arg1);
-}
 
-
-
-//draw a stright line across 2 points
-//arg1 is a coordinate of a point 
-//arg2 is a coordinate of another point
 
 
