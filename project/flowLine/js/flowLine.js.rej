@@ -1,0 +1,65 @@
+***************
+*** 55,64 ****
+          yi = current[1];
+          fxi = computeFx(xi,yi);
+          fyi = computeFy(xi,yi);
+- 	/*
+          if(isFinite(xi)||isFinite(yi)||isFinite(fxi)||isFinite(fyi)){ 
+- 	*/
+- 	if (Math.abs(xi) < 1000 && Math.abs(yi) < 1000) {
+              next = [xi+fxi*dt, yi+fyi*dt]
+              current = next;
+              if(i%20==0){
+--- 55,61 ----
+          yi = current[1];
+          fxi = computeFx(xi,yi);
+          fyi = computeFy(xi,yi);
+          if(isFinite(xi)||isFinite(yi)||isFinite(fxi)||isFinite(fyi)){ 
+              next = [xi+fxi*dt, yi+fyi*dt]
+              current = next;
+              if(i%20==0){
+***************
+*** 89,100 ****
+      pen.color(palette[0]).width("2px");
+      for(let i = xmin; i < xmax; i+=dx){
+          for(let j = ymin; j < ymax; j+=dy){
+! 	    {
+! 		var Fxy = computeFnormal(i,j);
+! 		if (0 < Norm(Fxy))
+! 		    line(Diff([i,j], Fxy), Sum([i,j], Fxy));
+!             }
+! 	}
+      }
+  }
+  
+--- 86,93 ----
+      pen.color(palette[0]).width("2px");
+      for(let i = xmin; i < xmax; i+=dx){
+          for(let j = ymin; j < ymax; j+=dy){
+!             line([i,j],computeFnormal(i,j));
+!         }
+      }
+  }
+  
+***************
+*** 127,136 ****
+      var fx = computeFx(x,y);
+      var fy = computeFy(x,y);
+      var disf = Math.sqrt(fx*fx+fy*fy);
+-     
+      if(disf==0){
+!         return[0, 0];
+      }else{
+!         return[l*fx/disf, l*fy/disf]
+!     }
+! }
+--- 120,128 ----
+      var fx = computeFx(x,y);
+      var fy = computeFy(x,y);
+      var disf = Math.sqrt(fx*fx+fy*fy);
+      if(disf==0){
+!         return[x,y];
+      }else{
+!         return[x-l*fx/disf,y-l*fy/disf]
+!     } 
+! }

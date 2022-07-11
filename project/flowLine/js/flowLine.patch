@@ -1,0 +1,61 @@
+*** flowLine.js	2022-07-11 15:38:16.757836214 -0400
+--- flowLine.js~	2022-07-11 14:11:17.000000000 -0400
+***************
+*** 44,53 ****
+          yi = current[1];
+          fxi = computeFx(xi,yi);
+          fyi = computeFy(xi,yi);
+- 	/*
+          if(isFinite(xi)||isFinite(yi)||isFinite(fxi)||isFinite(fyi)){ 
+- 	*/
+- 	if (Math.abs(xi) < 1000 && Math.abs(yi) < 1000) {
+              next = [xi+fxi*dt, yi+fyi*dt]
+              current = next;
+              if(i%20==0){
+--- 44,50 ----
+***************
+*** 78,89 ****
+      pen.color(palette[0]).width("2px");
+      for(let i = xmin; i < xmax; i+=dx){
+          for(let j = ymin; j < ymax; j+=dy){
+! 	    {
+! 		var Fxy = computeFnormal(i,j);
+! 		if (0 < Norm(Fxy))
+! 		    line(Diff([i,j], Fxy), Sum([i,j], Fxy));
+!             }
+! 	}
+      }
+  }
+  
+--- 75,82 ----
+      pen.color(palette[0]).width("2px");
+      for(let i = xmin; i < xmax; i+=dx){
+          for(let j = ymin; j < ymax; j+=dy){
+!             line([i,j],computeFnormal(i,j));
+!         }
+      }
+  }
+  
+***************
+*** 116,125 ****
+      var fx = computeFx(x,y);
+      var fy = computeFy(x,y);
+      var disf = Math.sqrt(fx*fx+fy*fy);
+-     
+      if(disf==0){
+!         return[0, 0];
+      }else{
+!         return[l*fx/disf, l*fy/disf]
+!     }
+! }
+--- 109,117 ----
+      var fx = computeFx(x,y);
+      var fy = computeFy(x,y);
+      var disf = Math.sqrt(fx*fx+fy*fy);
+      if(disf==0){
+!         return[x,y];
+      }else{
+!         return[x-l*fx/disf,y-l*fy/disf]
+!     } 
+! }
+\ No newline at end of file
