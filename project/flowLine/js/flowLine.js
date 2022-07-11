@@ -6,7 +6,7 @@ const sz = 1, xmin = -sz, xmax = sz, ymin = -sz, ymax = sz;
 
 const numDiv = 20;
 
-const dx =(xmax-xmin)/numDiv, dy =(ymax-ymin)/numDiv, dt = 0.00001;
+const dx =(xmax-xmin)/numDiv, dy =(ymax-ymin)/numDiv, dt = 0.001;
 
 const l= 0.4*dx
 
@@ -22,8 +22,17 @@ var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
 var pen = new Pen();
 //mouse location on canvas
 var x0, y0;
+var fxExpression;
+var fyExpression;
 
 $(document).ready(function() { 
+    // create a parser
+const parser = math.parser()
+
+// evaluate expressions
+     // 5
+
+console.log(parser.evaluate('sqrt(3^2 + 4^2)') );
     initialize_canvas("vectorField", width, height);
     drawVectorField()
     initialize_canvas("flowLine", width, height);
@@ -36,7 +45,7 @@ function collectFlowLineData(x,y){
     flowLineData.push([x,y]);
     var xi,yi,fxi,fyi,next;
     var current = flowLineData[0];
-    for(let i = 1; i < 1000000; i++){
+    for(let i = 1; i < 10000; i++){
         xi = current[0];
         yi = current[1];
         fxi = computeFx(xi,yi);
@@ -62,7 +71,9 @@ function drawFlowLine(){
 }
 
 function drawVectorField(){
+    setF();
     context = d3.select("#vectorField");
+    context.selectAll("line").remove();
     pen.color(palette[0]).width("2px");
     for(let i = xmin; i < xmax; i+=dx){
         for(let j = ymin; j < ymax; j+=dy){
@@ -74,11 +85,26 @@ function drawVectorField(){
 function computeF(x,y){
     return[computeFx(x,y),computeFy(x,y)]
 }
-function computeFx(x,y){
-    return (x-y)*(x+y);
+
+function setF(){
+    fxExpression = math.parse($("#fx").val()).compile();
+    fyExpression = math.parse($("#fy").val()).compile();
 }
-function computeFy(x,y){
-    return (-2)*x*y;
+
+function computeFx(u,v){
+    let scope = {
+        x:u,
+        y:v
+    }
+    return fxExpression.evaluate(scope);
+}
+
+function computeFy(u,v){
+    let scope = {
+        x:u,
+        y:v
+    }
+    return fyExpression.evaluate(scope);
 }
 
 function computeFnormal(x,y){
