@@ -1,13 +1,14 @@
 // Hight and width of the canvas
-const width = 600, height = 600;
+const width = 500, height = 500;
 
 //coordinate range for the canvas
-var min = -1, max = 1;
-var numDiv = 20;
+const sz = 1, xmin = -sz, xmax = sz, ymin = -sz, ymax = sz;
 
-var dx =(max-min)/numDiv, dy =(max-min)/numDiv, dt = 0.001;
+const numDiv = 20;
 
-var l= 0.4*dx
+const dx =(xmax-xmin)/numDiv, dy =(ymax-ymin)/numDiv, dt = 0.001;
+
+const l= 0.4*dx
 
 var flowLineData=[];
 
@@ -17,7 +18,7 @@ const palette = ["#000000", "#332288", "#88CCEE", "#44AA99", "#117733",
                 "#999933", "#DDCC77", "#CC6677", "#882255", "#AA4499"];
 
 var camera = new Camera();
-var rect_map = new Rect_Map([min, min], [max, max], width, height);
+var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
 var pen = new Pen();
 //mouse location on canvas
 var x0, y0;
@@ -38,7 +39,6 @@ function resetCanvas(){
 
 $(document).ready(function() { 
     initialize_canvas("vectorField", width, height);
-    resetCanvas()
     drawVectorField()
     initialize_canvas("flowLine", width, height);
     context = d3.select("#flowLine");
@@ -124,8 +124,9 @@ function computeFnormal(x,y){
     var fx = computeFx(x,y);
     var fy = computeFy(x,y);
     var disf = Math.sqrt(fx*fx+fy*fy);
+    
     if(disf==0){
-        return[x,y];
+        return[0, 0];
     }else{
         return[l*fx/disf,l*fy/disf]
     } 
