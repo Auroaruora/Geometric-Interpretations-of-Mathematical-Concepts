@@ -26,13 +26,6 @@ var fxExpression;
 var fyExpression;
 
 $(document).ready(function() { 
-    // create a parser
-const parser = math.parser()
-
-// evaluate expressions
-     // 5
-
-console.log(parser.evaluate('sqrt(3^2 + 4^2)') );
     initialize_canvas("vectorField", width, height);
     drawVectorField()
     initialize_canvas("flowLine", width, height);
@@ -40,6 +33,7 @@ console.log(parser.evaluate('sqrt(3^2 + 4^2)') );
     context.on("click", drawFlowLine);
     
 });
+
 function collectFlowLineData(x,y){
     flowLineData = [];
     flowLineData.push([x,y]);
@@ -50,12 +44,15 @@ function collectFlowLineData(x,y){
         yi = current[1];
         fxi = computeFx(xi,yi);
         fyi = computeFy(xi,yi);
-        next = [xi+fxi*dt, yi+fyi*dt]
-        current = next;
-        if(i%20==0){
-            flowLineData.push(next);
+        if(isFinite(xi)||isFinite(yi)||isFinite(fxi)||isFinite(fyi)){ 
+            next = [xi+fxi*dt, yi+fyi*dt]
+            current = next;
+            if(i%20==0){
+                flowLineData.push(next);
+            }
+        }else{
+            break;
         }
-        
     } 
 }
 function drawFlowLine(){
@@ -74,6 +71,7 @@ function drawVectorField(){
     setF();
     context = d3.select("#vectorField");
     context.selectAll("line").remove();
+    context.selectAll("path").remove();
     pen.color(palette[0]).width("2px");
     for(let i = xmin; i < xmax; i+=dx){
         for(let j = ymin; j < ymax; j+=dy){
