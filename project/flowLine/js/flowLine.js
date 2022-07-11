@@ -1,14 +1,13 @@
 // Hight and width of the canvas
-const width = 500, height = 500;
+const width = 600, height = 600;
 
 //coordinate range for the canvas
-const sz = 1, xmin = -sz, xmax = sz, ymin = -sz, ymax = sz;
+var min = -1, max = 1;
+var numDiv = 20;
 
-const numDiv = 20;
+var dx =(max-min)/numDiv, dy =(max-min)/numDiv, dt = 0.001;
 
-const dx =(xmax-xmin)/numDiv, dy =(ymax-ymin)/numDiv, dt = 0.001;
-
-const l= 0.4*dx
+var l= 0.4*dx
 
 var flowLineData=[];
 
@@ -18,15 +17,27 @@ const palette = ["#000000", "#332288", "#88CCEE", "#44AA99", "#117733",
                 "#999933", "#DDCC77", "#CC6677", "#882255", "#AA4499"];
 
 var camera = new Camera();
-var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
+var rect_map = new Rect_Map([min, min], [max, max], width, height);
 var pen = new Pen();
 //mouse location on canvas
 var x0, y0;
 var fxExpression;
 var fyExpression;
+function resetCanvas(){
+    max = $("#range").val();
+    min = -max;
+    $("#min").html(min); // write into the document
+    $("#max").html(max); 
+    rect_map.change([min,min], [max,max]);
+    dx =(max-min)/numDiv;
+    dy =(max-min)/numDiv;
+    l= 0.4*dx;
+    drawVectorField();
+}
 
 $(document).ready(function() { 
     initialize_canvas("vectorField", width, height);
+    resetCanvas()
     drawVectorField()
     initialize_canvas("flowLine", width, height);
     context = d3.select("#flowLine");
@@ -73,8 +84,8 @@ function drawVectorField(){
     context.selectAll("line").remove();
     context.selectAll("path").remove();
     pen.color(palette[0]).width("2px");
-    for(let i = xmin; i < xmax; i+=dx){
-        for(let j = ymin; j < ymax; j+=dy){
+    for(let i = min; i < max; i+=dx){
+        for(let j = min; j < max; j+=dy){
             line([i,j],computeFnormal(i,j));
         }
     }

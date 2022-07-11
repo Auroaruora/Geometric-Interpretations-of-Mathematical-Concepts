@@ -226,6 +226,15 @@ function Rect_Map(arg1, arg2, wd, ht)
     this.umax=wd;
     this.vmax=ht;
 }
+Rect_Map.prototype.change = function(arg1, arg2){
+
+    this.xmin=Math.min(arg1[0], arg2[0]);
+    this.ymin=Math.min(arg1[1], arg2[1]);
+
+    this.xmax=Math.max(arg1[0], arg2[0]);
+    this.ymax=Math.max(arg1[1], arg2[1]);
+    
+}
 
 // canvas position (u, v) of horizontal/vertical Cartesian location (x, y)
 Rect_Map.prototype.u = function(x)
