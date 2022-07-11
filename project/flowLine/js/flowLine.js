@@ -1,13 +1,14 @@
 // Hight and width of the canvas
-const width = 600, height = 600;
+const width = 500, height = 500;
 
 //coordinate range for the canvas
-var min = -1, max = 1;
-var numDiv = 20;
+const sz = 1, xmin = -sz, xmax = sz, ymin = -sz, ymax = sz;
 
-var dx =(max-min)/numDiv, dy =(max-min)/numDiv, dt = 0.001;
+const numDiv = 20;
 
-var l= 0.4*dx
+const dx =(xmax-xmin)/numDiv, dy =(ymax-ymin)/numDiv, dt = 0.001;
+
+const l= 0.4*dx
 
 var flowLineData=[];
 
@@ -17,27 +18,15 @@ const palette = ["#000000", "#332288", "#88CCEE", "#44AA99", "#117733",
                 "#999933", "#DDCC77", "#CC6677", "#882255", "#AA4499"];
 
 var camera = new Camera();
-var rect_map = new Rect_Map([min, min], [max, max], width, height);
+var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
 var pen = new Pen();
 //mouse location on canvas
 var x0, y0;
 var fxExpression;
 var fyExpression;
-function resetCanvas(){
-    max = $("#range").val();
-    min = -max;
-    $("#min").html(min); // write into the document
-    $("#max").html(max); 
-    rect_map.change([min,min], [max,max]);
-    dx =(max-min)/numDiv;
-    dy =(max-min)/numDiv;
-    l= 0.4*dx;
-    drawVectorField();
-}
 
 $(document).ready(function() { 
     initialize_canvas("vectorField", width, height);
-    resetCanvas()
     drawVectorField()
     initialize_canvas("flowLine", width, height);
     context = d3.select("#flowLine");
@@ -55,7 +44,10 @@ function collectFlowLineData(x,y){
         yi = current[1];
         fxi = computeFx(xi,yi);
         fyi = computeFy(xi,yi);
+	/*
         if(isFinite(xi)||isFinite(yi)||isFinite(fxi)||isFinite(fyi)){ 
+	*/
+	if (Math.abs(xi) < 1000 && Math.abs(yi) < 1000) {
             next = [xi+fxi*dt, yi+fyi*dt]
             current = next;
             if(i%20==0){
@@ -84,10 +76,14 @@ function drawVectorField(){
     context.selectAll("line").remove();
     context.selectAll("path").remove();
     pen.color(palette[0]).width("2px");
-    for(let i = min; i < max; i+=dx){
-        for(let j = min; j < max; j+=dy){
-            line([i,j],computeFnormal(i,j));
-        }
+    for(let i = xmin; i < xmax; i+=dx){
+        for(let j = ymin; j < ymax; j+=dy){
+	    {
+		var Fxy = computeFnormal(i,j);
+		if (0 < Norm(Fxy))
+		    line(Diff([i,j], Fxy), Sum([i,j], Fxy));
+            }
+	}
     }
 }
 
@@ -120,9 +116,10 @@ function computeFnormal(x,y){
     var fx = computeFx(x,y);
     var fy = computeFy(x,y);
     var disf = Math.sqrt(fx*fx+fy*fy);
+    
     if(disf==0){
-        return[x,y];
+        return[0, 0];
     }else{
-        return[x-l*fx/disf,y-l*fy/disf]
-    } 
+        return[l*fx/disf, l*fy/disf]
+    }
 }
