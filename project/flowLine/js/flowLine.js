@@ -23,6 +23,7 @@ var pen = new Pen();
 var x0, y0;
 var fxExpression;
 var fyExpression;
+
 function resetCanvas(){
     max = $("#range").val();
     min = -max;
@@ -55,7 +56,8 @@ function collectFlowLineData(x,y){
         yi = current[1];
         fxi = computeFx(xi,yi);
         fyi = computeFy(xi,yi);
-        if(isFinite(xi)||isFinite(yi)||isFinite(fxi)||isFinite(fyi)){ 
+        //if(isFinite(xi)||isFinite(yi)||isFinite(fxi)||isFinite(fyi)){ 
+        if (Math.abs(xi) < 1000 && Math.abs(yi) < 1000) {
             next = [xi+fxi*dt, yi+fyi*dt]
             current = next;
             if(i%20==0){
@@ -86,7 +88,9 @@ function drawVectorField(){
     pen.color(palette[0]).width("2px");
     for(let i = min; i < max; i+=dx){
         for(let j = min; j < max; j+=dy){
-            line([i,j],computeFnormal(i,j));
+            var Fxy = computeFnormal(i,j);
+		    if (0 < Norm(Fxy))
+		        line(Diff([i,j], Fxy), Sum([i,j], Fxy));;
         }
     }
 }
@@ -123,6 +127,6 @@ function computeFnormal(x,y){
     if(disf==0){
         return[x,y];
     }else{
-        return[x-l*fx/disf,y-l*fy/disf]
+        return[l*fx/disf,l*fy/disf]
     } 
 }
