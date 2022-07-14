@@ -12,6 +12,7 @@ var l= 0.4*dx
 
 var flowLineData=[];
 var flowLineData2=[];
+var animationData= [];
 var mouseLocation;
 
 // "Muted" qualitative color scheme suggested by Paul Tol
@@ -51,12 +52,15 @@ function initilizeCanvas(){
     l= 0.4*dx;
     drawVectorField();
 }
+
+
 $(document).ready(function() { 
     initialize_canvas("vectorField", width, height);
     initilizeCanvas();
     initialize_canvas("flowLine", width, height);
     context = d3.select("#flowLine");
-    context.on("click", drawFlowLine);
+    //context.on("click", drawFlowLine);
+    context.on("click", animateFlowLine);
     
 });
 
@@ -79,8 +83,57 @@ function collectFlowLineData(x,y){
     }
 }
 
- //collecting flow line data using runge-kutta method(Error/step = O(dt^4))
+function rungeKutta(current){
+    const dt = 0.001;
+    var k1 = Mult(dt, computeF(current));
+	var k2 = Mult(dt, computeF(Sum(current, Mult(0.5, k1))));
+	var k3 = Mult(dt, computeF(Sum(current, Mult(0.5, k2))));
+	var k4 = Mult(dt, computeF(Sum(current, k3)));
+    var val = Sum(k1, Mult(2, k2));
+	val = Sum(val, Mult(2, k3));
+	val = Sum(val, k4);
+    return Sum(current, Mult(1.0/6, val))
+}
 
+function collectAnimationData(current){
+    var size = animationData.length;
+    if(size==0){
+        animationData.push(current);
+    }else{
+        var temp = rungeKutta(animationData[size-1]);
+        animationData.push(temp)
+        if(size>1000){
+            animationData.shift();
+        }
+    }
+}
+
+function animateFlowLine(){
+    mouseLocation = d3.mouse(this);
+    x0 = rect_map.x(mouseLocation [0]);
+    y0 = rect_map.y(mouseLocation [1]);
+    var current =[x0,y0];
+    context = d3.select("#flowLine");
+    //context.selectAll("path").remove();
+    collectAnimationData(current);
+    
+    // while(animationData[animationData.length-1][0]<xmax &&
+    //       animationData[animationData.length-1][0]>xmin &&
+    //       animationData[animationData.length-1][1]<ymax &&
+    //       animationData[animationData.length-1][1]>ymin){}
+        for(var i = 0; i<10000;i++){
+            context.selectAll("path").remove();
+            console.log(animationData[animationData.length-1][0]);
+            collectAnimationData(current);
+            
+            pen.color(palette[1]).width("4px");
+            polyline(animationData);
+        }
+    }     
+    
+
+ 
+ //collecting flow line data using runge-kutta method(Error/step = O(dt^4))
 function collectFlowLineData2(x,y){
     const dt = 0.05;
     flowLineData2 = [];
@@ -90,19 +143,9 @@ function collectFlowLineData2(x,y){
 
     let i = 1;
     while (flowLineData2.length < 10000) {
-        var k1 = Mult(dt, computeF(current));
-	var k2 = Mult(dt, computeF(Sum(current, Mult(0.5, k1))));
-	var k3 = Mult(dt, computeF(Sum(current, Mult(0.5, k2))));
-	var k4 = Mult(dt, computeF(Sum(current, k3)));
-
-	var val = Sum(k1, Mult(2, k2));
-	val = Sum(val, Mult(2, k3));
-	val = Sum(val, k4);
-        next = Sum(current, Mult(1.0/6, val));
-//	if (i%20 == 0)
+        rungeKutta(current);
 	if(Norm(current) < 1000 && // we're not escaping to infinity
 	   (++i < 100 || 0.001 < Norm(Diff(current, [x, y]))) && // path not closed
-	   //0.01*dt < Norm(Diff(current, next))) // not appraching a fixed point
 	   0.0001 < Norm(computeF(current))) // not appraching a fixed point
 	{
 	    flowLineData2.push(next);
@@ -117,6 +160,8 @@ function collectFlowLineData2(x,y){
     console.log("Number of points = " + flowLineData2.length);
 
 }
+
+
 
 function drawFlowLine(){
     mouseLocation = d3.mouse(this);
@@ -193,4 +238,3 @@ function computeFy(arg1){
     }
     return fyExpression.evaluate(scope);
 }
-
