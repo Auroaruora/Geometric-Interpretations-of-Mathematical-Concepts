@@ -29,15 +29,7 @@ var fxExpression;
 var fyExpression;
 
 function resetCanvas(){
-    max = $("#range").val();
-    min = -max;
-    $("#min").html(min); // write into the document
-    $("#max").html(max); 
-    rect_map.change([min,min], [max,max]);
-    dx =(max-min)/numDiv;
-    dy =(max-min)/numDiv;
-    l= 0.4*dx;
-    drawVectorField();
+    initilizeCanvas();
     resizeFlowLine();
 }
 
@@ -160,8 +152,6 @@ function collectFlowLineData2(x,y){
     console.log("Number of points = " + flowLineData2.length);
 
 }
-
-
 
 function drawFlowLine(){
     mouseLocation = d3.mouse(this);

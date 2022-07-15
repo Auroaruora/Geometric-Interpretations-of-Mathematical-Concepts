@@ -6,6 +6,24 @@
 
 $(document).ready(function() {
 
+    var tablestring='';
+    tablestring +='<table>'
+    for(let i = 0; i<1; i=i+1/16){
+        tablestring +='<tr>'
+        for(let j = 0; j<1; j=j+1/16){
+
+            for(let k = 0;k<1; k=k+1/16){
+                
+            }
+        }
+        tablestring +='</tr>'
+    }
+    tablestring +='</table>'
+    $("#colorTable").html(tablestring)
+    
+    
+    
+    
     //Matrix Class testing
     // var matirxA = new Matrix("A",1,2,3,4);
     // var Ainverse = matirxA.inverse();
@@ -17,9 +35,9 @@ $(document).ready(function() {
 
     
     // initialize_canvas("testing", width, height);
-    context = d3.select("#testing");
+    //context = d3.select("#testing");
     // var v1 = new Vector2("v1",[2,1],"#0000ff");
-    $("#v1").addClass("highlight", true);
+    //$("#v1").addClass("highlight", true);
     //$("#v1").addClass("relocate", true);
     //$("#v1").addClass("highlight", false);
     //v1.remove();
