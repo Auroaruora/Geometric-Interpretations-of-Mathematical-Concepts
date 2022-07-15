@@ -11,12 +11,11 @@ $(document).ready(function() {
     for(let i = 0; i<1; i=i+1/16){
         tablestring +='<tr>'
         for(let j = 0; j<1; j=j+1/16){
-
             for(let k = 0;k<1; k=k+1/16){
-                
+                tablestring+="<td>"+RGB2HexColor(i,j,k)+"<//td>";
             }
         }
-        tablestring +='</tr>'
+        tablestring +='<//tr>'
     }
     tablestring +='</table>'
     $("#colorTable").html(tablestring)
