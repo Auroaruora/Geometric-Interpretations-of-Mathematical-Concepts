@@ -30,7 +30,7 @@ $(document).ready(function() {
     resizeCanvas();
     initialize_canvas("flowLine", width, height);
     context = d3.select("#flowLine");
-    //context.on("click", drawFlowLine);
+    //context.on("click", drawFlowLine);œ
     $("#play").bind("click", toggle_animate);
     
 });
