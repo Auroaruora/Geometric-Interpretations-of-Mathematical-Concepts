@@ -3,7 +3,7 @@ var ratio=1;
 const width = 480, height = ratio*width;
 
 //coordinate range for the canvas
-var sz = 20, xmin = -sz, xmax = sz, ymin = -ratio*sz, ymax = ratio*sz;
+var sz = 1, xmin = -sz, xmax = sz, ymin = -ratio*sz, ymax = ratio*sz;
 
 // "Muted" qualitative color scheme suggested by Paul Tol
 // https://personal.sron.nl/~pault/
@@ -63,6 +63,8 @@ $(document).ready(function() {
     initialize_canvas("flowLine", width, height);
     context = d3.select("#flowLine");
     context.on("click", toggle_animate);
+
+    resizeCanvas();
     drawVectorField();
 });
 
@@ -85,11 +87,9 @@ function resizeCanvas(){
     xmin = -xmax;
     ymax = ratio*xmax;
     ymin = ratio*xmin;
-    zmin = xmin;
-    zmax = xmax;
     var range_string = "$" + xmin + " < x < " + xmax + "$, ";
     range_string += "$" + ymin + " < y < " + ymax + "$";
-    range_string += "$" + zmin + " < z < " + zmax + "$";
+
 
     $("#canvas_range").html(range_string); // write into the document
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "canvas_range"]);
@@ -128,7 +128,7 @@ function Euler(current){
 }
 */
 // Calculate and push the image of data's final point; if length is
-// greater than 100, pop the first point.
+// greater than PATH_LENGTH, pop the first point.
 function iterateData(data){
     var temp = rungeKutta(data[data.length-1]);
     //var temp = Euler(data[data.length-1]);
@@ -174,24 +174,19 @@ function drawVectorField(){
 //    context.selectAll("line").remove();
     context.selectAll("path").remove();
     context.selectAll("circle").remove();
-    pen.color(palette[0]).width("2px");
-    //pen.color("#888").width("1px");
-    for(let i = xmin; i < xmax; i+=dx){
-        for(let j = ymin; j < ymax; j+=dy){
-		var Fxy = computeF([i, j]);
-		//var distance = Norm(Diff(camera.m_loc, [i, j])) - Norm(camera.m_loc),
-		    //dens = (Math.floor(255*Math.tanh(Math.log(1 + Math.exp(distance))))).toString(16);
-
-		//pen.color("#" + dens + dens + dens).width("1px");
-		//if (0.0001 < Norm(Fxy)){
-		    Fxy = Mult(l/Norm(Fxy), Fxy);
-		    arrow(Diff([i, j], Fxy), Sum([i,j], Fxy));
-		    //arrow([i, j, k], Sum([i,j, k], Fxy));
-	        }
-	        //else
-		    //spot([i, j], 1);  
-        
-	//}
+    //    pen.color(palette[0]).width("2px");
+    pen.color("#888").width("1px");
+    for(let i = xmin; i <= xmax; i+=dx){
+        for(let j = ymin; j <= ymax; j+=dy){
+	    var Fxy = computeF([i, j]);
+	    if (0.0001 < Norm(Fxy)){
+		Fxy = Mult(l/Norm(Fxy), Fxy);
+		arrow(Diff([i, j], Fxy), Sum([i,j], Fxy));
+		//arrow([i, j, k], Sum([i,j, k], Fxy));
+	    }
+	    else
+		spot([i, j], 1);
+	}
     }
 }
 
