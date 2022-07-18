@@ -30,16 +30,20 @@ $(document).ready(function() {
     resizeCanvas();
     initialize_canvas("flowLine", width, height);
     context = d3.select("#flowLine");
-
-    context.on("click", toggle_animate);
+    //context.on("click", drawFlowLine);
+    $("#play").bind("click", toggle_animate);
+    
 });
 
 function toggle_animate(){
     animate_flag = !animate_flag;
-    if (animate_flag)
-	id = setInterval(drawCanvas, 40);
-    else// drawCanvas has no action, but call only one a minute
-	id = setInterval(drawCanvas, 60000);
+    if (animate_flag){
+        $("#play").html("&#10074;&#10074;");
+	    id = setInterval(drawCanvas, 40);
+    }else{// drawCanvas has no action, but call only one a minute
+	    $("#play").html("&#9658;");
+        id = setInterval(drawCanvas, 60000);
+    }
 }
 
 function random_position()
