@@ -1,49 +1,77 @@
 // Hight and width of the canvas
-var ratio=0.5;
-const width = 1000, height = ratio*width;
+var ratio=1;
+const width = 480, height = ratio*width;
 
 //coordinate range for the canvas
-var sz = 1, xmin = -sz, xmax = sz, ymin = -ratio*sz, ymax = ratio*sz;
+var sz = 20, xmin = -sz, xmax = sz, ymin = -ratio*sz, ymax = ratio*sz;
 
-const numDiv = 20, MAX_AGE = 200; // maximum age of a Trail
+// "Muted" qualitative color scheme suggested by Paul Tol
+// https://personal.sron.nl/~pault/
+/*
+const palette = ["#000000", "#332288", "#88CCEE", "#44AA99", "#117733", 
+                "#999933", "#DDCC77", "#CC6677", "#882255", "#AA4499"];
+*/
+
+// triples representing colors of "young", "mature", "old", and "faded"
+const palette = [[0, 1, 0],
+		 [0.25, 1, 0],
+		 [0.25, 0.75, 0],
+		 [0.125, 0.75, 0],
+		 [1, 1, 0],
+		 [1, 0, 0],
+		 [1, 1, 1]];
+
+const NUM_DIV = 8, // number of vectors to plot in each direction
+      MAX_AGE = 100, LIFETIME = palette.length*MAX_AGE,
+      PATH_LENGTH = 100,
+      dt = 0.0025;
 
 var dx=set_step(xmin, xmax),
     dy=set_step(ymin, ymax),
     l=0.4*Math.min(dx, dy);
 
+const d_theta = 0.01, d_phi = 0.01;
 var frame_count = 0;
 var animate_flag = false;
 var allTrails = [];
 
-// "Muted" qualitative color scheme suggested by Paul Tol
-// https://personal.sron.nl/~pault/
-const palette = ["#000000", "#332288", "#88CCEE", "#44AA99", "#117733", 
-                "#999933", "#DDCC77", "#CC6677", "#882255", "#AA4499"];
+// age is an integer between 0 and LIFETIME
+function my_color(age)
+{
+    var time = age/MAX_AGE,
+	index = 0;
+    while (1 < time)
+    {
+	++index;
+	time -= 1;
+    }
+    if (index < palette.length - 1)
+	return RGB2HexColor(cvx_lin_comb(palette[index], palette[index+1], time));
+
+    else
+	return RGB2HexColor(palette[palette.length - 1]);
+}
 
 var camera = new Camera();
 var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
 var pen = new Pen();
 
+camera.range(50);
 
 $(document).ready(function() { 
     initialize_canvas("vectorField", width, height);
-    resizeCanvas();
     initialize_canvas("flowLine", width, height);
     context = d3.select("#flowLine");
-    //context.on("click", drawFlowLine);œ
-    $("#play").bind("click", toggle_animate);
-    
+    context.on("click", toggle_animate);
+    drawVectorField();
 });
 
 function toggle_animate(){
     animate_flag = !animate_flag;
-    if (animate_flag){
-        $("#play").html("&#10074;&#10074;");
-	    id = setInterval(drawCanvas, 40);
-    }else{// drawCanvas has no action, but call only one a minute
-	    $("#play").html("&#9658;");
-        id = setInterval(drawCanvas, 60000);
-    }
+    if (animate_flag)
+	id = setInterval(drawCanvas, 40);
+    else// drawCanvas has no action, but call only one a minute
+	id = setInterval(drawCanvas, 60000);
 }
 
 function random_position()
@@ -57,15 +85,19 @@ function resizeCanvas(){
     xmin = -xmax;
     ymax = ratio*xmax;
     ymin = ratio*xmin;
+    zmin = xmin;
+    zmax = xmax;
     var range_string = "$" + xmin + " < x < " + xmax + "$, ";
-    range_string += "$" + ymin + " < y < " + ymax + "$"
+    range_string += "$" + ymin + " < y < " + ymax + "$";
+    range_string += "$" + zmin + " < z < " + zmax + "$";
+
     $("#canvas_range").html(range_string); // write into the document
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "canvas_range"]);
     delete rect_map;
     rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
     dx=set_step(xmin, xmax);
     dy=set_step(ymin, ymax);
-    l=0.4*dx;
+    l=0.4*Math.min(dx, dy);
     drawVectorField();
 }
 
@@ -76,11 +108,10 @@ function resetCanvas(){
 
 function set_step(u, v)
 {
-    return (v - u)/numDiv;
+    return (v - u)/NUM_DIV;
 }
 
 function rungeKutta(current){
-    const dt = 0.025;///Norm(computeF(current));
     var k1 = Mult(dt, computeF(current));
     var k2 = Mult(dt, computeF(Sum(current, Mult(0.5, k1))));
     var k3 = Mult(dt, computeF(Sum(current, Mult(0.5, k2))));
@@ -91,14 +122,19 @@ function rungeKutta(current){
 
     return Sum(current, Mult(1.0/6, val))
 }
-
+/*
+function Euler(current){
+    return Sum(current, Mult(dt, computeF(current)));
+}
+*/
 // Calculate and push the image of data's final point; if length is
 // greater than 100, pop the first point.
 function iterateData(data){
     var temp = rungeKutta(data[data.length-1]);
+    //var temp = Euler(data[data.length-1]);
     data.push(temp);
 
-    if(20 <= data.length){
+    if(PATH_LENGTH <= data.length){
         data.shift();
     }
 
@@ -110,36 +146,52 @@ function drawCanvas(){
 	return;
     // else
     ++frame_count;
+
     context = d3.select("#flowLine");
+    context.selectAll("line").remove();
     context.selectAll("path").remove();
 
     for (i = 0; i < allTrails.length; ++i)
     {
+//	console.log(my_color(allTrails[0].m_age));
+
+	// remove "elderly" trails
+	while(!allTrails[0].is_alive())
+	{
+	    var tmp = allTrails.shift();
+	    delete tmp;
+	}
+
 	allTrails[i].iterate();
 	allTrails[i].draw();
-	// remove "elderly" trails
-	while(MAX_AGE < allTrails[0].age())
-	    allTrails.shift();
     }
-    if (frame_count % 10 == 0)
+    if (frame_count % 4 == 0)
 	allTrails.push(new Trail(random_position()));
 }
 
 function drawVectorField(){
     context = d3.select("#vectorField");
-    context.selectAll("line").remove();
+//    context.selectAll("line").remove();
     context.selectAll("path").remove();
+    context.selectAll("circle").remove();
     pen.color(palette[0]).width("2px");
+    //pen.color("#888").width("1px");
     for(let i = xmin; i < xmax; i+=dx){
         for(let j = ymin; j < ymax; j+=dy){
-            var Fxy = computeF([i,j]);
-		    if (0.0001 < Norm(Fxy)){
-		        Fxy = Mult(l/Norm(Fxy), Fxy);
-		        arrow(Diff([i,j], Fxy), Sum([i,j], Fxy));
+		var Fxy = computeF([i, j]);
+		//var distance = Norm(Diff(camera.m_loc, [i, j])) - Norm(camera.m_loc),
+		    //dens = (Math.floor(255*Math.tanh(Math.log(1 + Math.exp(distance))))).toString(16);
+
+		//pen.color("#" + dens + dens + dens).width("1px");
+		//if (0.0001 < Norm(Fxy)){
+		    Fxy = Mult(l/Norm(Fxy), Fxy);
+		    arrow(Diff([i, j], Fxy), Sum([i,j], Fxy));
+		    //arrow([i, j, k], Sum([i,j, k], Fxy));
 	        }
-	        else
-		        spot([i, j], 1);  
-        }
+	        //else
+		    //spot([i, j], 1);  
+        
+	//}
     }
 }
 
@@ -149,7 +201,7 @@ function computeF(arg){
         y:arg[1]
     }
     return[math.compile($("#fx").val()).evaluate(scope),
-           math.compile($("#fy").val()).evaluate(scope)];
+           math.compile($("#fy").val()).evaluate(scope)]
 }
 
 function Trail(arg)
@@ -159,26 +211,52 @@ function Trail(arg)
     this.m_age = 0;
 }
 
-Trail.prototype.color = function(){
-    var dens = Math.min(15, Math.floor(this.m_age*16/MAX_AGE)).toString(16);
-    console.log("Trail.color = #" + dens + dens + "f");
-
-    return "#" + dens + dens + "f";
-}
-
 Trail.prototype.iterate = function(){
-    if (MAX_AGE < ++this.m_age)
-	delete this;
-
-    else
-	this.m_data = iterateData(this.m_data);
+    ++this.m_age;
+    this.m_data = iterateData(this.m_data);
 }
 
-Trail.prototype.age = function(){
-    return this.m_age;
+Trail.prototype.is_alive = function(){
+    if (1.5*LIFETIME < this.m_age || // too old
+	(2 < this.m_data.length && // or first two points are too close
+	 Norm(Diff(this.m_data[0], this.m_data[1])) < 0.01*dt))
+    {
+	return false;
+    }
+    else
+	return true;
 }
 
 Trail.prototype.draw = function(){
-    pen.color(this.color()).width("2px");
+    pen.color(my_color(this.m_age)).width("3px");
     polyline(this.m_data);
+}
+
+
+function rotate_left()
+{
+    camera.pan(d_theta);
+    drawVectorField();
+    drawCanvas();
+}
+        
+function rotate_right()
+{
+    camera.pan(-d_theta);
+    drawVectorField();
+    drawCanvas();
+}
+        
+function rotate_up()
+{
+    camera.tilt(d_phi);
+    drawVectorField();
+    drawCanvas();
+}
+        
+function rotate_down()
+{
+    camera.tilt(-d_phi);
+    drawVectorField();
+    drawCanvas();
 }
