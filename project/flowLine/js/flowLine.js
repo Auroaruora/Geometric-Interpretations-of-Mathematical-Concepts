@@ -23,8 +23,9 @@ const palette = [[0, 1, 0],
 
 const NUM_DIV = 8, // number of vectors to plot in each direction
       MAX_AGE = 100, LIFETIME = palette.length*MAX_AGE,
-      PATH_LENGTH = 100,
-      dt = 0.0025;
+      PATH_LENGTH = 100;
+
+var  dt = 0.0025;
 
 var dx=set_step(xmin, xmax),
     dy=set_step(ymin, ymax),
@@ -62,7 +63,8 @@ $(document).ready(function() {
     initialize_canvas("vectorField", width, height);
     initialize_canvas("flowLine", width, height);
     context = d3.select("#flowLine");
-    context.on("click", toggle_animate);
+    //context.on("click", toggle_animate);
+    $("#play").bind("click",toggle_animate)
 
     resizeCanvas();
     drawVectorField();
@@ -132,6 +134,7 @@ function Euler(current){
 function iterateData(data){
     var temp = rungeKutta(data[data.length-1]);
     //var temp = Euler(data[data.length-1]);
+    if(Norm(temp)<1000)
     data.push(temp);
 
     if(PATH_LENGTH <= data.length){

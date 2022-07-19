@@ -12,7 +12,7 @@
   <script src="../../js/jquery.js"></script>
   <script src="../../js/d3.js"></script>
   <script src="../../js/HC.js"></script>
-  <script src="../../../js/HC22.js"></script>
+  <script src="../../js/HC22.js"></script>
   <script src="./js/flowLine.js"></script>
   
 
@@ -45,7 +45,14 @@
       <input type="range" min="1" max="5" value="1" id="range" onchange="resetCanvas()">
       Range: <span id="canvas_range"></span>
     </div>
-    
+    <div>
+      <p>Generate random points within the vector field defined by F(x,y) 
+        and see how they move within the vector field</p>
+        <button type="button" id = "play"> &#9658;</button>
+      <p>Pick a point on canvas. The result of the flowline 
+         related to that point will be generate.</p>
+    </div>
+
     <div>
         <div id="canvas" style="position:relative; text-align:center; margin-left:10px; margin-right: 10px;">
             <svg id="vectorField" 

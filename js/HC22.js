@@ -1,20 +1,25 @@
 function parseHex(x){
-    var hexString
-    if(x<0){
-        x=0;
-    }else if(x>1){
-        x=1;
-    }else{
-        x=256*x;
-        x=Math.floor(x);
+    if (isNaN(x))
+	return "00";
+
+    // else
+    if(x < 0)
+    {
+        x = 0;
     }
-    hexString = (x).toString(16);
-    if(x<16){
-        hexString ="0"+hexString;
+    else if(1 <= x)
+    {
+        x = 255.5/256; // ensure we don't return "100"
     }
+
+    var hexString = (Math.floor(256*x)).toString(16);
+
+    if (hexString.length == 1)
+	hexString = "0" + hexString;
+    
     return hexString;
 }
 
-function RGB2HexColor(r,g,b){
-    return "#" + parseHex(r)+parseHex(g)+parseHex(b);
+function RGB2HexColor(dens){
+    return "#" + parseHex(dens[0]) + parseHex(dens[1]) + parseHex(dens[2]);
 }
