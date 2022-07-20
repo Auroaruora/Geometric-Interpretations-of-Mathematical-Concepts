@@ -35,8 +35,57 @@
     <header>
       <h1>Geometric Interpretation of Flow Line</h1>
     </header>
-    <div>
-    F(x,y)= (
+
+    <!-- define the apperence for math expression -->
+    <p style="display: none;">
+      $\newcommand{\Reals}{\mathbf{R}}$
+      $\newcommand{\Vec}[1]{\mathbf{#1}}$
+      $\DeclareMathOperator{\std}{st}$
+    </p>
+
+    <ul>
+      <li><a href="#definiton">Definition</a></li>
+      <li><a href="#Tips">Tips</a></li>
+      <li><a href="#Goal">Goal</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <div style = "background-color: rgb(201, 189, 223);min-height:200px; overflow: hidden;">
+      <div>
+        <h2>Mathematics Definition</h2>
+          <p>
+          <b>Vector Field</b>: A vector field $F$ in $\Reals^{2}$ is an assignment of a vector $F(x,y)$
+          to each point$(x,y)$ in a subset of $\Reals^{2}$.
+          </p>
+          <p>
+          <b>Flow Line</b>: If $F$ is a vector field, then a flow line is a path $r(t)$ such that 
+          $$r'(t)=F(r(t))$$.
+          </p>
+      </div>
+      <div >
+        <h2>Tips for Using the Program</h2>
+      </div>
+      <div>
+        <h2>Goal for Using the Program</h2>
+      </div>
+      <div>
+        <h2>The Approach of This Program</h2>
+          <p>
+           Many of the differential equations are impossible to solve using
+           analytics methods by human knowledge at this point, which means 
+           solving flow lines directly is an almost impossible task. The 
+           introduction of numerical methods makes it feasible to approximate
+           flow lines pretty accurately so that users can get a sense of what
+           the flow line looks like in a complicated vector field. We 
+           introduced two basic numerical approaches to make sure the program
+           is fast enough to satisfy the user experience. The two numerical
+           approaches we used are the Euler's method and the Runge-Kutta method.
+           The difference between these two methods is the error and the amount 
+           of computation involved in each time step.
+          </p>
+      </div>
+    </div>
+    <div>    
+    $F(x,y)= $(
         <input name= "fx" size="10" type="text" id="fx" onchange=" drawVectorField()" value ="x*x-y">,
         <input name= "fy" size="10" type="text" id="fy" onchange=" drawVectorField()" value ="2*x*y">
     )

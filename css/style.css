@@ -1,7 +1,7 @@
 /* Body Attributes */
 body {
-  margin-left: 15%;
-  margin-right: 15%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 /* Paragraphs */
@@ -121,5 +121,32 @@ table {
   height: 25px; /* Slider handle height */
   background: #04AA6D; /* Green background */
   cursor: pointer; /* Cursor on hover */
+}
+
+
+ul {
+
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(88, 51, 132);
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: rgb(201, 189, 223);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  color: white;
 }
 
