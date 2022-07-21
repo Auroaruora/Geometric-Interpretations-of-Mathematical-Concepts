@@ -1,0 +1,6 @@
+
+.col-fixed { width:200px; }
+.col-fluid { width:calc(100% - 200px);} 
+.bg-lightpurple{background-color: rgb(201, 189, 223);}
+.bg-mediumpurple{background-color: rgb(98, 74, 129);}
+.bg-darkpurple{background-color: rgb(88,51,132);}

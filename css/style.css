@@ -1,9 +1,4 @@
 /* Body Attributes */
-body {
-  margin-left: 5%;
-  margin-right: 5%;
-}
-
 /* Paragraphs */
 p {
 
@@ -123,17 +118,17 @@ table {
   cursor: pointer; /* Cursor on hover */
 }
 
-
-ul {
+/*horizontal navigation bar*/
+ /* ul {
 
   list-style-type: none;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: hidden; 
   background-color: rgb(88, 51, 132);
-}
+} */
 
-li {
+/* li {
   float: left;
 }
 
@@ -145,8 +140,17 @@ li a {
   text-decoration: none;
 }
 
-/* Change the link color to #111 (black) on hover */
 li a:hover {
   color: white;
 }
 
+.hide {
+  display: none;
+}
+
+
+    
+.myDIV:hover + .hide {
+  display: block;
+  color: red;
+} */
