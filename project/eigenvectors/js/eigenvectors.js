@@ -100,7 +100,7 @@ function solve(){
         }
     }
     message +='</p>'
-    $("#explaination").html(message);
+    $("#numEigenvectors").html(message);
 
 }
 

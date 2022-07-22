@@ -67,7 +67,7 @@ $(document).ready(function() {
     $("#play").bind("click",toggle_animate)
 
     resizeCanvas();
-    drawVectorField();
+    //drawVectorField();
 });
 
 function toggle_animate(){
@@ -85,6 +85,7 @@ function random_position()
 }
 
 function resizeCanvas(){
+    drawVectorField();
     xmax = $("#range").val();
     xmin = -xmax;
     ymax = ratio*xmax;
@@ -98,7 +99,6 @@ function resizeCanvas(){
     dx=set_step(xmin, xmax);
     dy=set_step(ymin, ymax);
     l=0.4*Math.min(dx, dy);
-    drawVectorField();
 }
 
 function resetCanvas(){

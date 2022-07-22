@@ -42,20 +42,20 @@
     $\DeclareMathOperator{\std}{st}$
   </p>
   <div class="container-fluid  vh-100 g-0">
-    <div class="row h-100 g-0">
+    <div class="row vh-100 g-0">
       <!-- navigation bar leads to different website -->
       <div id="navigation-bar " class="col-fixed vh-100">
         <nav class="sidebar navbar-dark position-fixed col-fixed bg-mediumpurple vh-100">
           <div class="container-fluid">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="#">Basis</a>
+                <a class="nav-link" href="../changeBasis/changeBasis.html">Basis</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Diagnalizable</a>
+                <a class="nav-link" href="../diagnalizable/diagnalizable.html">Diagnalizable</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Eigenvectors</a>
+                <a class="nav-link" href="../eigenvectors/eigenvectors.html">Eigenvectors</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Flow Line</a>
@@ -88,7 +88,7 @@
         </nav>
 
         <div id="explaination" class="h-info col-12 bg-lightpurple position-relative">
-          <div id="about" class=" h-info col-12 bg-lightpurple  position-absolute">
+          <div id="about" class=" h-info col-12 bg-lightpurple  position-absolute" style="z-index: 2;">
             <h2>The Approach of This Program</h2>
             <p>
               Many of the differential equations are impossible to solve using
@@ -104,22 +104,22 @@
               of computation involved in each time step.
             </p>
           </div>
-          <div id="definition" class="h-info col-12 bg-lightpurple  position-absolute">
+          <div id="definition" class="h-info col-12 bg-lightpurple position-absolute" style="z-index: -1;">
             <h2>Mathematics Definition</h2>
             <p><b>Vector Field</b>: A vector field $F$ in $\Reals^{2}$ is an assignment of a vector $F(x,y)$
               to each point$(x,y)$ in a subset of $\Reals^{2}$.</p>
             <p><b>Flow Line</b>: If $F$ is a vector field, then a flow line is a path $r(t)$ such that
               $$r'(t)=F(r(t))$$.</p>
           </div>
-          <div id="tips" class=" h-info col-12 bg-lightpurple  position-absolute">
+          <div id="tips" class=" h-info col-12 bg-lightpurple  position-absolute" style="z-index: 1;">
             <h2>Tips for Using the Program</h2>
             <p>
               There are 2 ways to interate with the canvas:<br>
-              1.Animation
+              1.Animation: Click the play button and the canvas will generate random points on the canvas 
               2.
             </p>
           </div>
-          <div id="goal" class=" h-info col-12 bg-lightpurple position-absolute">
+          <div id="goal" class=" h-info col-12 bg-lightpurple position-absolute"style="z-index:1;">
             <h2>Goal for Using the Program</h2>
           </div>
         </div>

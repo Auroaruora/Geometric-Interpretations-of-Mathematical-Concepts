@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
   <title>Geometric Interpretation of Changing Basis</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <!-- <link rel="shortcut icon" href="../../favicon.ico" /> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- style of the website -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/testing.css" />
 
   <!-- interactive code for the website -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../../js/jquery.js"></script>
   <script src="../../js/d3.js"></script>
   <script src="../../js/HC.js"></script>
@@ -27,70 +30,137 @@
   </script>
 
   <script type="text/javascript" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  </script>
-  </head> 
+    src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+</head>
 
-  <body>
-      <header>
-        <h1>Geometric Interpretation of Changing Basis</h1>
-      </header>
-
-      <!-- define the apperence for math expression -->
-      <p style="display: none;">
-        $\newcommand{\Reals}{\mathbf{R}}$
-        $\newcommand{\Vec}[1]{\mathbf{#1}}$
-        $\DeclareMathOperator{\std}{st}$
-      </p>
-      <!-- intro about the website -->
-      <h3>Introduction about the website</h3>
-      <p>
-        This program shows a vector $\Vec{v}$ represented geometrically in terms of standard 
-        basis and $\alpha$ basis. User can type in a arbitary basis in $\Reals^{2}$ and select an 
-        arbitary vector on canvas. Click to freeze vector $\Vec{v}$ and some useful information 
-        related to changing basis will be generate.
-      </p>
-      <!-- define basis -->
-      <h3>Definition</h3>
-      <p>
-        Let $V = \Reals^{2}$, $\std$ be the standard basis $(\Vec{e_1},\Vec{e_2})$ ,
-        and $\alpha$ be the basis consisting of the vectors:
-      </p>
-      <div style = "text-align: center;">
-        $\Vec{u_1} =$
-        (<input name= "u11" size="2" type="text" id="u11" onchange="reset()" value ="2"> ,
-        <input name= "u12" size="2" type="text" id="u12" onchange="reset()" value ="1"> )
-        $\Vec{u_2} = $
-        (<input name= "u21" size="2" type="text" id="u21" onchange="reset()" value ="2"> ,
-        <input name= "u22" size="2" type="text" id="u22" onchange="reset()" value ="3"> )
+<body>
+  <!-- define the apperence for math expression -->
+  <p style="display: none;">
+    $\newcommand{\Reals}{\mathbf{R}}$
+    $\newcommand{\Vec}[1]{\mathbf{#1}}$
+    $\DeclareMathOperator{\std}{st}$
+  </p>
+  <div class="container-fluid  vh-100 g-0">
+    <div class="row vh-100 g-0">
+      <!-- navigation bar leads to different website -->
+      <div id="navigation-bar " class="col-fixed vh-100">
+        <nav class="sidebar navbar-dark position-fixed col-fixed bg-mediumpurple vh-100">
+          <div class="container-fluid">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link">Basis</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../diagnalizable/diagnalizable.html">Diagnalizable</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../eigenvectors/eigenvectors.html">Eigenvectors</a>
+              </li>
+              <li class="nav-item" href="../flowLine/flowLine.html">
+                <a class="nav-link" href="#">Flow Line</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
       </div>
-      <!-- define Identity transformations -->
-      <p>Based on the information provided above, we have the following identity transformations: </p>
-      <div style = "text-align: center;">
-        $[I]_{\alpha}^{\std} = $ <span id = "ItransAtoS"></span>
-        $\qquad 
-        ([I]_{\alpha}^{\std})^{-1} =  [I]_{\std}^{\alpha} = $ &nbsp <span id = "ItransStoA"></span>
-      </div>
+      <!-- Main context of the current program -->
+      <div id="main-content container" class="col-fluid">
+        <!-- navigation bar  -->
+        <nav class="navbar navbar-expand navbar-dark bg-darkpurple col-12">
+          <a class="navbar-brand" href="#">Geometric Interpretation of Changing Basis</a>
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <button type="button" class="btn btn-link nav-link" onclick="">Definition</button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-link nav-link" onclick="">Tips</button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-link nav-link" onclick="">Goal</button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-link nav-link" onclick="">About</button>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <!-- Information about the program and what does the entire website do -->
+        <div id="explaination" class="h-info col-12 bg-lightpurple position-relative">
+          <div id="about" class=" h-info col-12 bg-lightpurple  position-absolute">
+            <h2>The Approach of This Program</h2>
+            <p>
+            </p>
+          </div>
 
-      <span id="transitionMatrices"></span>
+          <div id="Goal" class=" h-info col-12 bg-lightpurple  position-absolute">
+            <h2>Goal for Using the Program</h2>
+            <p>
+            </p>
+          </div>
 
-      <button type="button" id="showChangedGrid" onclick="showHideChangeGrid()">Show Grid base on $\alpha$ basis </button>
-      <div style="text-align:center; margin-left:10px; margin-right: 10px;">
+          <div id="Tips" class=" h-info col-12 bg-lightpurple  position-absolute">
+            <h2>Tips for Using the Program</h2>
+            <p>
+              This program shows a vector $\Vec{v}$ represented geometrically in terms of standard
+              basis and $\alpha$ basis. User can type in a arbitary basis in $\Reals^{2}$ and select an
+              arbitary vector on canvas. Click to freeze vector $\Vec{v}$ and some useful information
+              related to changing basis will be generate.
+            </p>
+          </div>
+
+          <div id="Definition" class=" h-info col-12 bg-lightpurple  position-absolute">
+            <h2>Mathematics Definition</h2>
+
+          </div>
+        </div>
+
+        <!-- define basis -->
+        <p>
+          Let $V = \Reals^{2}$, $\std$ be the standard basis $(\Vec{e_1},\Vec{e_2})$ ,
+          and $\alpha$ be the basis consisting of the vectors:
+        </p>
+        <div style="text-align: center;">
+          $\Vec{u_1} =$
+          (<input name="u11" size="2" type="text" id="u11" onchange="reset()" value="2"> ,
+          <input name="u12" size="2" type="text" id="u12" onchange="reset()" value="1"> )
+          $\Vec{u_2} = $
+          (<input name="u21" size="2" type="text" id="u21" onchange="reset()" value="2"> ,
+          <input name="u22" size="2" type="text" id="u22" onchange="reset()" value="3"> )
+        </div>
+        <!-- define Identity transformations -->
+        <p>Based on the information provided above, we have the following identity transformations: </p>
+        <div style="text-align: center;">
+          $[I]_{\alpha}^{\std} = $ <span id="ItransAtoS"></span>
+          $\qquad
+          ([I]_{\alpha}^{\std})^{-1} = [I]_{\std}^{\alpha} = $ &nbsp <span id="ItransStoA"></span>
+        </div>
+
+        <span id="transitionMatrices"></span>
+
+        <button type="button" id="showChangedGrid" onclick="showHideChangeGrid()">Show Grid base on $\alpha$ basis
+        </button>
+        <div style="text-align:center; margin-left:10px; margin-right: 10px;">
           <span id="infoV"></span>
         </div>
-      <div style="display:flex; flex-direction: row; justify-content: center;">
-      <!-- a set of svg canvas along with it's lable -->
-        <div id="canvas" style="position:relative; text-align:center; margin-left:10px; margin-right: 10px;">
-          <!-- Draws standard Basis coordinate system -->
-          <svg id="standardBasis" 
-            style="z-index:1; position:absolute; left:0px; top:0px"></svg>
-          <!-- Draws Changed Basis coordinate system -->
-          <svg id="changedBasis"
-              style="z-index:2; position:absolute; left:0px; top:0px"></svg>
-          <!-- Helpful information and vectors to explain the idea of change basis-->
-          <svg id="vectors"
-              style="z-index:3; position:absolute; left:0px; top:0px"></svg>
+        <div style="display:flex; flex-direction: row; justify-content: center;">
+          <!-- a set of svg canvas along with it's lable -->
+          <div id="canvas" style="position:relative; text-align:center; margin-left:10px; margin-right: 10px;">
+            <!-- Draws standard Basis coordinate system -->
+            <svg id="standardBasis" style="z-index:1; position:absolute; left:0px; top:0px"></svg>
+            <!-- Draws Changed Basis coordinate system -->
+            <svg id="changedBasis" style="z-index:2; position:absolute; left:0px; top:0px"></svg>
+            <!-- Helpful information and vectors to explain the idea of change basis-->
+            <svg id="vectors" style="z-index:3; position:absolute; left:0px; top:0px"></svg>
+          </div>
         </div>
+        
       </div>
-  </body>
+    </div>
+  </div>
+
+
+</body>
+
 </html>

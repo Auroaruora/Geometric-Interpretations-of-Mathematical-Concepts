@@ -1,4 +1,6 @@
 
+body { min-width: 730px; }
+
 .col-fixed { width:140px; }
 .col-fluid { width:calc(100% - 140px);} 
 .h-info{height:400px}
