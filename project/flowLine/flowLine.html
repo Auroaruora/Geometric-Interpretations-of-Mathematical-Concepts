@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
   <title>Geometric Interpretation of Flow Line</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +16,7 @@
   <script src="../../js/HC.js"></script>
   <script src="../../js/HC22.js"></script>
   <script src="./js/flowLine.js"></script>
-  
+
 
   <!-- implement mathjax to display math equation properly -->
   <script type="text/x-mathjax-config">
@@ -29,127 +29,129 @@
   </script>
 
   <script type="text/javascript" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  </script>
+    src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.js"></script>
-  </head> 
-  <body>
-    <!-- define the apperence for math expression -->
-    <p style="display: none;">
-      $\newcommand{\Reals}{\mathbf{R}}$
-      $\newcommand{\Vec}[1]{\mathbf{#1}}$
-      $\DeclareMathOperator{\std}{st}$
-    </p>
+</head>
 
+<body>
+  <!-- define the apperence for math expression -->
+  <p style="display: none;">
+    $\newcommand{\Reals}{\mathbf{R}}$
+    $\newcommand{\Vec}[1]{\mathbf{#1}}$
+    $\DeclareMathOperator{\std}{st}$
+  </p>
+  <div class="container-fluid  vh-100 g-0">
     <div class="row h-100 g-0">
-      <div class="col-fixed ">
-          <nav class="sidebar navbar-dark bg-mediumpurple" >
-              <div class="container-fluid">
-              <ul class="navbar-nav">
+      <!-- navigation bar leads to different website -->
+      <div id="navigation-bar " class="col-fixed vh-100">
+        <nav class="sidebar navbar-dark position-fixed col-fixed bg-mediumpurple vh-100">
+          <div class="container-fluid">
+            <ul class="navbar-nav">
               <li class="nav-item">
-              <a class="nav-link" href="#">Basis</a>
+                <a class="nav-link" href="#">Basis</a>
               </li>
               <li class="nav-item">
-              <a class="nav-link" href="#">Diagnalizable</a>
+                <a class="nav-link" href="#">Diagnalizable</a>
               </li>
               <li class="nav-item">
-              <a class="nav-link" href="#">Eigenvectors</a>
+                <a class="nav-link" href="#">Eigenvectors</a>
               </li>
               <li class="nav-item">
-              <a class="nav-link" href="#">Flow Line</a>
+                <a class="nav-link" href="#">Flow Line</a>
               </li>
-              </ul>
-              </div>
-          </nav>
+            </ul>
+          </div>
+        </nav>
       </div>
+      <!-- Main context of the current program -->
+      <div id="main-content container" class="col-fluid">
+        <!-- navigation bar  -->
+        <nav class="navbar navbar-expand navbar-dark bg-darkpurple col-12">
+          <a class="navbar-brand" href="#">Geometric Interpretation of Flow Line</a>
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <button type="button" class="btn btn-link nav-link" onclick="">Definition</button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-link nav-link" onclick="">Tips</button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-link nav-link" onclick="">Goal</button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-link nav-link" onclick="">About</button>
+              </li>
+            </ul>
+          </div>
+        </nav>
 
-      <div class="col-fluid">
-          <nav class="navbar navbar-expand navbar-dark bg-darkpurple" >
-              <a class="navbar-brand" href="#">Geometric Interpretation of Flow Line</a>
-              <div class="collapse navbar-collapse">
-              <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-              <a class="nav-link" href="#definition">Definition</a>
-              </li>
-              <li class="nav-item">
-              <a class="nav-link" href="#tips">Tips</a>
-              </li>
-              <li class="nav-item">
-              <a class="nav-link" href="#goal">Goal</a>
-              </li>
-              <li class="nav-item">
-              <a class="nav-link" href="#about">About</a>
-              </li>
-              </ul>
-              </div>
-          </nav>
-
-          <div id="explaination" class ="hight-auto bg-lightpurple w-80" >
-            <div id="definition" class ="bg-lightpurple w-80 z-index-2 position-absolute" >
+        <div id="explaination" class="h-info col-12 bg-lightpurple position-relative">
+          <div id="about" class=" h-info col-12 bg-lightpurple  position-absolute">
+            <h2>The Approach of This Program</h2>
+            <p>
+              Many of the differential equations are impossible to solve using
+              analytics methods by human knowledge at this point, which means
+              solving flow lines directly is an almost impossible task. The
+              introduction of numerical methods makes it feasible to approximate
+              flow lines pretty accurately so that users can get a sense of what
+              the flow line looks like in a complicated vector field. We
+              introduced two basic numerical approaches to make sure the program
+              is fast enough to satisfy the user experience. The two numerical
+              approaches we used are the Euler's method and the Runge-Kutta method.
+              The difference between these two methods is the error and the amount
+              of computation involved in each time step.
+            </p>
+          </div>
+          <div id="definition" class="h-info col-12 bg-lightpurple  position-absolute">
             <h2>Mathematics Definition</h2>
             <p><b>Vector Field</b>: A vector field $F$ in $\Reals^{2}$ is an assignment of a vector $F(x,y)$
-            to each point$(x,y)$ in a subset of $\Reals^{2}$.</p>
-            <p><b>Flow Line</b>: If $F$ is a vector field, then a flow line is a path $r(t)$ such that 
-            $$r'(t)=F(r(t))$$.</p>
-            </div>
-            <div id="tips" class ="bg-lightpurple w-80 z-index-1 position-absolute">
+              to each point$(x,y)$ in a subset of $\Reals^{2}$.</p>
+            <p><b>Flow Line</b>: If $F$ is a vector field, then a flow line is a path $r(t)$ such that
+              $$r'(t)=F(r(t))$$.</p>
+          </div>
+          <div id="tips" class=" h-info col-12 bg-lightpurple  position-absolute">
             <h2>Tips for Using the Program</h2>
             <p>
-            There are 2 ways to interate with the canvas:<br>
-            1.Animation
-            2.
+              There are 2 ways to interate with the canvas:<br>
+              1.Animation
+              2.
             </p>
-            </div >
-            <div id="goal" class ="bg-lightpurple w-80 z-index-1 position-absolute">
-          <h2>Goal for Using the Program</h2>
+          </div>
+          <div id="goal" class=" h-info col-12 bg-lightpurple position-absolute">
+            <h2>Goal for Using the Program</h2>
+          </div>
+        </div>
+
+        <div class="row h-100 g-0">
+          <div id="canvas" class="col-canvas position-relative "
+            style="text-align:center; margin:10px; margin-right:10px;">
+            <svg id="vectorField" style="z-index:1; position:absolute; left:0px; top:0px"></svg>
+            <svg id="flowLine" style="z-index:2; position:absolute; left:0px; top:0px"></svg>
+          </div>
+          <div class="col-canvas-info float-right">
+            <div id="equation">$F(x,y)= $(
+              <input name="fx" size="10" type="text" id="fx" onchange=" drawVectorField()" value="x*x-y">,
+              <input name="fy" size="10" type="text" id="fy" onchange=" drawVectorField()" value="2*x*y">)
             </div>
-            <div id ="about" class ="bg-lightpurple w-80 z-index-1 position-absolute">
-          <h2>The Approach of This Program</h2>
-          <p>
-           Many of the differential equations are impossible to solve using
-           analytics methods by human knowledge at this point, which means 
-           solving flow lines directly is an almost impossible task. The 
-           introduction of numerical methods makes it feasible to approximate
-           flow lines pretty accurately so that users can get a sense of what
-           the flow line looks like in a complicated vector field. We 
-           introduced two basic numerical approaches to make sure the program
-           is fast enough to satisfy the user experience. The two numerical
-           approaches we used are the Euler's method and the Runge-Kutta method.
-           The difference between these two methods is the error and the amount 
-           of computation involved in each time step.
-          </p>
+            <div class="slidecontainer">
+              <input type="range" min="1" max="5" value="1" id="range" onchange="resetCanvas()">
+              Range: <span id="canvas_range"></span>
+            </div>
+            <div>
+              <p>Generate random points within the vector field defined by F(x,y)
+                and see how they move within the vector field</p>
+              <button type="button" id="play"> &#9658;</button>
+              <p>Pick a point on canvas. The result of the flowline
+                related to that point will be generate.</p>
             </div>
           </div>
-      </div>
-    </div>
-
-    
-    <div id="equation">    
-    $F(x,y)= $(
-        <input name= "fx" size="10" type="text" id="fx" onchange=" drawVectorField()" value ="x*x-y">,
-        <input name= "fy" size="10" type="text" id="fy" onchange=" drawVectorField()" value ="2*x*y">
-    )
-    </div>
-    <div class="slidecontainer">
-      <input type="range" min="1" max="5" value="1" id="range" onchange="resetCanvas()">
-      Range: <span id="canvas_range"></span>
-    </div>
-    <div>
-      <p>Generate random points within the vector field defined by F(x,y) 
-        and see how they move within the vector field</p>
-        <button type="button" id = "play"> &#9658;</button>
-      <p>Pick a point on canvas. The result of the flowline 
-         related to that point will be generate.</p>
-    </div>
-
-    <div>
-        <div id="canvas" style="position:relative; text-align:center; margin-left:10px; margin-right: 10px;">
-            <svg id="vectorField" 
-              style="z-index:1; position:absolute; left:0px; top:0px"></svg>
-            <svg id="flowLine"
-                style="z-index:2; position:absolute; left:0px; top:0px"></svg>
         </div>
-    </div>
-  </body>
+      </div>
+
+
+
+</body>
 
 </html>

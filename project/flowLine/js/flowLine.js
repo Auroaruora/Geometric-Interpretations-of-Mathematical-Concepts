@@ -91,8 +91,6 @@ function resizeCanvas(){
     ymin = ratio*xmin;
     var range_string = "$" + xmin + " < x < " + xmax + "$, ";
     range_string += "$" + ymin + " < y < " + ymax + "$";
-
-
     $("#canvas_range").html(range_string); // write into the document
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "canvas_range"]);
     delete rect_map;

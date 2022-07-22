@@ -1,6 +1,10 @@
 
-.col-fixed { width:200px; }
-.col-fluid { width:calc(100% - 200px);} 
+.col-fixed { width:140px; }
+.col-fluid { width:calc(100% - 140px);} 
+.h-info{height:400px}
+.col-canvas{ width:500px; height:200px;}
+/* .col-canvas-info {width:calc(100%-500px);} */
+.col-canvas-info {width:500px;}
 .bg-lightpurple{background-color: rgb(201, 189, 223);}
 .bg-mediumpurple{background-color: rgb(98, 74, 129);}
 .bg-darkpurple{background-color: rgb(88,51,132);}
