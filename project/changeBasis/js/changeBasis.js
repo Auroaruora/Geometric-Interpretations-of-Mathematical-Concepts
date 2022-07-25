@@ -26,6 +26,7 @@ var coefficent = [];
 var camera = new Camera();
 var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
 var pen = new Pen();
+var layernum= 10;
 
 $(document).ready(function() { 
     
@@ -41,6 +42,12 @@ $(document).ready(function() {
     
     //draw useful information
 });
+
+function display(name){
+    layernum = layernum+1;
+    $(name).css("z-index",layernum);
+}
+
 function drawStandardGrids(){
     context = d3.select("#standardBasis");
     pen.color(palette[0]).width("2px");

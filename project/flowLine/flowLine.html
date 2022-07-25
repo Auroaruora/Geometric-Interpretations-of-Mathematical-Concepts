@@ -72,23 +72,23 @@
           <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                <button type="button" class="btn btn-link nav-link" onclick="">Definition</button>
+                <button type="button" class="btn btn-link nav-link" onclick="display('#definition')">Definition</button>
               </li>
               <li class="nav-item">
-                <button type="button" class="btn btn-link nav-link" onclick="">Tips</button>
+                <button type="button" class="btn btn-link nav-link" onclick="display('#tips')">Tips</button>
               </li>
               <li class="nav-item">
-                <button type="button" class="btn btn-link nav-link" onclick="">Goal</button>
+                <button type="button" class="btn btn-link nav-link" onclick="display('#goal')">Goal</button>
               </li>
               <li class="nav-item">
-                <button type="button" class="btn btn-link nav-link" onclick="">About</button>
+                <button type="button" class="btn btn-link nav-link" onclick="display('#about')">About</button>
               </li>
             </ul>
           </div>
         </nav>
 
         <div id="explaination" class="h-info col-12 bg-lightpurple position-relative">
-          <div id="about" class=" h-info col-12 bg-lightpurple  position-absolute" style="z-index: 2;">
+          <div id="about" class=" h-info col-12 bg-lightpurple  position-absolute">
             <h2>The Approach of This Program</h2>
             <p>
               Many of the differential equations are impossible to solve using
@@ -104,23 +104,25 @@
               of computation involved in each time step.
             </p>
           </div>
-          <div id="definition" class="h-info col-12 bg-lightpurple position-absolute" style="z-index: -1;">
+
+          <div id="tips" class=" h-info col-12 bg-lightpurple  position-absolute">
+            <h2>Tips for Using the Program</h2>
+            <p>
+              There are 2 ways to interate with the canvas:<br>
+              1.Click the play button and the canvas will generate random points on 
+              the canvas and shows how they float with their according flowLine<br>
+              2.Click on a point on canvas a flow line according to that point will be generate.
+            </p>
+          </div>
+          <div id="goal" class=" h-info col-12 bg-lightpurple position-absolute">
+            <h2>Goal for Using the Program</h2>
+          </div>
+          <div id="definition" class="h-info col-12 bg-lightpurple position-absolute">
             <h2>Mathematics Definition</h2>
             <p><b>Vector Field</b>: A vector field $F$ in $\Reals^{2}$ is an assignment of a vector $F(x,y)$
               to each point$(x,y)$ in a subset of $\Reals^{2}$.</p>
             <p><b>Flow Line</b>: If $F$ is a vector field, then a flow line is a path $r(t)$ such that
               $$r'(t)=F(r(t))$$.</p>
-          </div>
-          <div id="tips" class=" h-info col-12 bg-lightpurple  position-absolute" style="z-index: 1;">
-            <h2>Tips for Using the Program</h2>
-            <p>
-              There are 2 ways to interate with the canvas:<br>
-              1.Animation: Click the play button and the canvas will generate random points on the canvas 
-              2.
-            </p>
-          </div>
-          <div id="goal" class=" h-info col-12 bg-lightpurple position-absolute"style="z-index:1;">
-            <h2>Goal for Using the Program</h2>
           </div>
         </div>
 

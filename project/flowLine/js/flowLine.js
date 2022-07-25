@@ -36,6 +36,7 @@ var frame_count = 0;
 var animate_flag = false;
 var allTrails = [];
 
+var layernum=10;
 // age is an integer between 0 and LIFETIME
 function my_color(age)
 {
@@ -69,6 +70,11 @@ $(document).ready(function() {
     resizeCanvas();
     //drawVectorField();
 });
+
+function display(name){
+    layernum = layernum+1;
+    $(name).css("z-index",layernum);
+}
 
 function toggle_animate(){
     animate_flag = !animate_flag;

@@ -32,6 +32,8 @@ var camera = new Camera();
 var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
 var pen = new Pen();
 
+var layernum = 10;
+
 $(document).ready(function() {
     // html file contains svg element with id "canvas"
     
@@ -50,6 +52,11 @@ $(document).ready(function() {
     generate_Matrix()
     solve ()
 });
+
+function display(name){
+    layernum = layernum+1;
+    $(name).css("z-index",layernum);
+}
 
 function solve(){
     var trA = matrix[0][0] + matrix[1][1],
