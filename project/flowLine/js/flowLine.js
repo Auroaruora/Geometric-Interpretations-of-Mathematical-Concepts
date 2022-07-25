@@ -21,11 +21,11 @@ const palette = [[0, 1, 0],
 		 [1, 0, 0],
 		 [1, 1, 1]];
 
-const NUM_DIV = 8, // number of vectors to plot in each direction
+const NUM_DIV = 24, // number of vectors to plot in each direction
       MAX_AGE = 100, LIFETIME = palette.length*MAX_AGE,
       PATH_LENGTH = 100;
 
-var  dt = 0.0025;
+var  dt = 0.025;
 
 var dx=set_step(xmin, xmax),
     dy=set_step(ymin, ymax),
@@ -91,20 +91,22 @@ function random_position()
 }
 
 function resizeCanvas(){
-    drawVectorField();
+    
     xmax = $("#range").val();
     xmin = -xmax;
     ymax = ratio*xmax;
     ymin = ratio*xmin;
-    var range_string = "$" + xmin + " < x < " + xmax + "$, ";
-    range_string += "$" + ymin + " < y < " + ymax + "$";
-    $("#canvas_range").html(range_string); // write into the document
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "canvas_range"]);
     delete rect_map;
     rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
     dx=set_step(xmin, xmax);
     dy=set_step(ymin, ymax);
     l=0.4*Math.min(dx, dy);
+    drawVectorField();
+    var range_string = "$" + xmin + " < x < " + xmax + "$, ";
+    range_string += "$" + ymin + " < y < " + ymax + "$";
+    $("#canvas_range").html(range_string); // write into the document
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "canvas_range"]);
+    
 }
 
 function resetCanvas(){
@@ -138,7 +140,7 @@ function Euler(current){
 function iterateData(data){
     var temp = rungeKutta(data[data.length-1]);
     //var temp = Euler(data[data.length-1]);
-    if(Norm(temp)<1000)
+    //if(Norm(temp)<1000)
     data.push(temp);
 
     if(PATH_LENGTH <= data.length){

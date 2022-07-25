@@ -77,9 +77,9 @@
               <li class="nav-item">
                 <button type="button" class="btn btn-link nav-link" onclick="display('#tips')">Tips</button>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <button type="button" class="btn btn-link nav-link" onclick="display('#goal')">Goal</button>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <button type="button" class="btn btn-link nav-link" onclick="display('#about')">About</button>
               </li>
@@ -88,19 +88,19 @@
         </nav>
         <!-- Information about the program and what does the entire website do -->
         <div id="explaination" class="h-info col-12 bg-lightpurple position-relative">
-          <div id="about" class=" h-info col-12 bg-lightpurple  position-absolute">
+          <div id="about" class=" h-info col-12 bg-lightpurple  position-absolute overflow-auto">
             <h2>The Approach of This Program</h2>
             <p>
             </p>
           </div>
 
-          <div id="goal" class=" h-info col-12 bg-lightpurple  position-absolute">
+          <!-- <div id="goal" class=" h-info col-12 bg-lightpurple  position-absolute">
             <h2>Goal for Using the Program</h2>
             <p>
             </p>
-          </div>
+          </div> -->
 
-          <div id="tips" class=" h-info col-12 bg-lightpurple  position-absolute">
+          <div id="tips" class=" h-info col-12 bg-lightpurple  position-absolute overflow-auto">
             <h2>Tips for Using the Program</h2>
             <p>
               This program shows a vector $\Vec{v}$ represented geometrically in terms of standard
@@ -110,8 +110,16 @@
             </p>
           </div>
 
-          <div id="definition" class=" h-info col-12 bg-lightpurple  position-absolute">
+          <div id="definition" class=" h-info col-12 bg-lightpurple  position-absolute overflow-auto">
             <h2>Mathematics Definition</h2>
+            <p><b>Basis</b>: A basis is a <b>linearly independent</b> subset S in a vector space V that
+              <b>spans</b> the vector space.
+            </p>
+            <p><b>Change Basis Matrix</b> $[I]_{\alpha}^{\alpha'} $: Change Basis Matrix (also called
+              transition matrix), is the matrix which changes from $\alpha$ coordinates to $\alpha'$ coordinates.
+              <b>Notice </b>that the Change Basis Matrix have to be <b>invertiable</b>. Otherwise one of the "basis"
+              might not be a real basis
+            </p>
 
           </div>
         </div>
@@ -138,24 +146,26 @@
         </div>
 
         <span id="transitionMatrices"></span>
-
-        <button type="button" id="showChangedGrid" onclick="showHideChangeGrid()">Show Grid base on $\alpha$ basis
-        </button>
-        <div style="text-align:center; margin-left:10px; margin-right: 10px;">
-          <span id="infoV"></span>
-        </div>
-        <div style="display:flex; flex-direction: row; justify-content: center;">
+        <div style="display:flex; flex-direction: row; justify-content: center; width:px; height:200px;">
           <!-- a set of svg canvas along with it's lable -->
           <div id="canvas" style="position:relative; text-align:center; margin-left:10px; margin-right: 10px;">
+            <span>
             <!-- Draws standard Basis coordinate system -->
             <svg id="standardBasis" style="z-index:1; position:absolute; left:0px; top:0px"></svg>
             <!-- Draws Changed Basis coordinate system -->
             <svg id="changedBasis" style="z-index:2; position:absolute; left:0px; top:0px"></svg>
             <!-- Helpful information and vectors to explain the idea of change basis-->
             <svg id="vectors" style="z-index:3; position:absolute; left:0px; top:0px"></svg>
+            </span>
           </div>
+        </div>  
+        <button type="button" id="showChangedGrid" onclick="showHideChangeGrid()">Show Grid base on $\alpha$ basis</button>
+        <div style="text-align:center; margin-left:10px; margin-right: 10px;">
+          <span id="infoV"></span>
         </div>
+
         
+
       </div>
     </div>
   </div>

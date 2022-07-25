@@ -77,9 +77,9 @@
               <li class="nav-item">
                 <button type="button" class="btn btn-link nav-link" onclick="display('#tips')">Tips</button>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <button type="button" class="btn btn-link nav-link" onclick="display('#goal')">Goal</button>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <button type="button" class="btn btn-link nav-link" onclick="display('#about')">About</button>
               </li>
@@ -88,7 +88,7 @@
         </nav>
 
         <div id="explaination" class="h-info col-12 bg-lightpurple position-relative">
-          <div id="about" class=" h-info col-12 bg-lightpurple  position-absolute">
+          <div id="about" class=" h-info col-12 bg-lightpurple  position-absolute overflow-auto">
             <h2>The Approach of This Program</h2>
             <p>
               Many of the differential equations are impossible to solve using
@@ -105,19 +105,27 @@
             </p>
           </div>
 
-          <div id="tips" class=" h-info col-12 bg-lightpurple  position-absolute">
+          <div id="tips" class=" h-info col-12 bg-lightpurple  position-absolute overflow-auto">
             <h2>Tips for Using the Program</h2>
             <p>
               There are 2 ways to interate with the canvas:<br>
-              1.Click the play button and the canvas will generate random points on 
+              1.Click the play button<button type="button"> &#9658;</button> and the canvas will generate random points on 
               the canvas and shows how they float with their according flowLine<br>
               2.Click on a point on canvas a flow line according to that point will be generate.
             </p>
+            <p>
+              The slide bar below the canvas control the range of the system. Use it as a way to zoom in and zoom out for more information
+
+            </p>
           </div>
-          <div id="goal" class=" h-info col-12 bg-lightpurple position-absolute">
+          <!-- <div id="goal" class=" h-info col-12 bg-lightpurple position-absolute">
             <h2>Goal for Using the Program</h2>
-          </div>
-          <div id="definition" class="h-info col-12 bg-lightpurple position-absolute">
+            <p>
+              Experience Different type of Vector Field.
+
+            </p>
+          </div> -->
+          <div id="definition" class="h-info col-12 bg-lightpurple position-absolute overflow-auto">
             <h2>Mathematics Definition</h2>
             <p><b>Vector Field</b>: A vector field $F$ in $\Reals^{2}$ is an assignment of a vector $F(x,y)$
               to each point$(x,y)$ in a subset of $\Reals^{2}$.</p>
@@ -126,28 +134,25 @@
           </div>
         </div>
 
-        <div class="row h-100 g-0">
+        <div class="row g-0">
           <div id="canvas" class="col-canvas position-relative "
             style="text-align:center; margin:10px; margin-right:10px;">
             <svg id="vectorField" style="z-index:1; position:absolute; left:0px; top:0px"></svg>
             <svg id="flowLine" style="z-index:2; position:absolute; left:0px; top:0px"></svg>
           </div>
+          <div>
+              <button type="button" id="play"> &#9658;</button>
+          </div>
           <div class="col-canvas-info float-right">
             <div id="equation">$F(x,y)= $(
-              <input name="fx" size="10" type="text" id="fx" onchange=" drawVectorField()" value="x*x-y">,
-              <input name="fy" size="10" type="text" id="fy" onchange=" drawVectorField()" value="2*x*y">)
+              <input name="fx" size="15" type="text" id="fx" onchange=" drawVectorField()" value="-y+cos(4x+7y)">,
+              <input name="fy" size="15" type="text" id="fy" onchange=" drawVectorField()" value="x+sin(-5x+2y)">)
             </div>
             <div class="slidecontainer">
               <input type="range" min="1" max="5" value="1" id="range" onchange="resetCanvas()">
               Range: <span id="canvas_range"></span>
             </div>
-            <div>
-              <p>Generate random points within the vector field defined by F(x,y)
-                and see how they move within the vector field</p>
-              <button type="button" id="play"> &#9658;</button>
-              <p>Pick a point on canvas. The result of the flowline
-                related to that point will be generate.</p>
-            </div>
+            
           </div>
         </div>
       </div>

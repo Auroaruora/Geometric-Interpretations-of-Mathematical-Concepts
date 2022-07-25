@@ -104,10 +104,36 @@ function updateMatrix(){
     $("#ItransStoA").html(temp); // write into the document
     MathJax.Hub.Queue(["Typeset",MathJax.Hub,"ItransStoA"]);
 }
+// compute gcd of two positive integers, no safety checks
+function printEntry(arg)
+{
+    if (typeof(arg) === 'number')
+	return "" + arg;
+
+    else
+    {
+	var num = arg.m_num,
+	    denom = arg.m_denom,
+	    cdiv = gcd(num, denom);
+
+	num = num/cdiv;
+	denom = denom/cdiv;
+	if (denom < 0)
+	{
+	    num *= -1;
+	    denom *= -1;
+	}
+	var val = "" + num;
+	if (denom != 1)
+	    val += "/" + denom;
+
+	return val;
+    }
+}
 function printMatrix(A){
     var info = "$\\left[\\begin{array}{@{}rr@{}}";
-    info += A[0][0] + "&" + A[0][1] + "\\\\";
-    info += A[1][0] + "&" + A[1][1] + "\\\\ \\end{array}\\right]$";
+    info += printEntry(A[0][0]) + "&" + printEntry(A[0][1]) + "\\\\";
+    info += printEntry(A[1][0]) + "&" + printEntry(A[1][1]) + "\\\\ \\end{array}\\right]$";
     return info;
 }
 function drawBasis(){
@@ -219,7 +245,6 @@ function higlightableArrow(tail, head, ident)
         $("#" + ident).css({"stroke-width": "5"});
     });
 }
-
 
 
 
