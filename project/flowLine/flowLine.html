@@ -51,9 +51,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="../changeBasis/changeBasis.html">Basis</a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="../diagnalizable/diagnalizable.html">Diagnalizable</a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a class="nav-link" href="../eigenvectors/eigenvectors.html">Eigenvectors</a>
               </li>
@@ -135,7 +135,7 @@
         </div>
 
         <div class="row g-0">
-          <div id="canvas" class="col-canvas position-relative "
+          <div id="canvas" class="col-canvas position-relative  "
             style="text-align:center; margin:10px; margin-right:10px;">
             <svg id="vectorField" style="z-index:1; position:absolute; left:0px; top:0px"></svg>
             <svg id="flowLine" style="z-index:2; position:absolute; left:0px; top:0px"></svg>
@@ -148,7 +148,7 @@
               <input name="fx" size="15" type="text" id="fx" onchange=" drawVectorField()" value="-y+cos(4x+7y)">,
               <input name="fy" size="15" type="text" id="fy" onchange=" drawVectorField()" value="x+sin(-5x+2y)">)
             </div>
-            <div class="slidecontainer">
+            <div class="slidecontainer " >
               <input type="range" min="1" max="5" value="1" id="range" onchange="resetCanvas()">
               Range: <span id="canvas_range"></span>
             </div>
