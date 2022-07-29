@@ -8,7 +8,7 @@ var ticks = 4, subticks = 5*ticks, dx = 1/ticks, num_pts = 120;
 var freeze = false; // fix mouse position?
 
 // Matrix 
-var matrix = [[],[]];
+var matrix;
 
 // Eigenvalues
 var Eigenvalues = [[],[]]
@@ -32,11 +32,15 @@ var camera = new Camera();
 var rect_map = new Rect_Map([xmin, ymin], [xmax, ymax], width, height);
 var pen = new Pen();
 
+//used to control which information will be visiable(definition/tips/about)
 var layernum = 10;
+function display(name){
+    layernum = layernum+1;
+    $(name).css("z-index",layernum);
+}
 
 $(document).ready(function() {
     // html file contains svg element with id "canvas"
-    
     initialize_canvas("domain", width, height);
     initialize_canvas("target", width, height);
 
@@ -45,84 +49,40 @@ $(document).ready(function() {
     /* Bind a function to the double-click event */
 	.on("dblclick", add_vector)
 	.on("mousemove", draw_canvas);
-    make_menu();
+    //make_menu();
     draw_grids();
     make_coefficient_table();
     //set_coefficients();
     generate_Matrix()
-    solve ()
+    
 });
-
-function display(name){
-    layernum = layernum+1;
-    $(name).css("z-index",layernum);
-}
-
-function solve(){
-    var trA = matrix[0][0] + matrix[1][1],
-        detA = matrix[0][0]*matrix[1][1]-matrix[0][1]*matrix[1][0];
-    var test = trA*trA-4*detA;
-    var message;
-    message +='<p> ';
-    if(test < 0){
-        message+='There is no eigenvalue for this matrix.';
-    }else if(test == 0){
-        message+='There is one eigenvalue for this matrix.';
-        if(Math.sqrt(test) % 1 === 0){
-            var numerator = trA + Math.sqrt(test);
-            if(numerator%2==0){
-                var sol = numerator/2;
-                message+= sol;
-            }else{
-                message+='$\\frac{' + numerator + '}{2}'
-            }
-            
-        }else{
-            message+='$\\frac{1}{2}[' + trA + '+\\sqrt{' + test + '}]$';
-        }
-        
-        
-    }else{
-        message+='There are two eigenvalue for this matrix.'
-        if(Math.sqrt(test) % 1 === 0){
-            var numerator1 = trA + Math.sqrt(test);
-            var numerator2 = trA - Math.sqrt(test);
-            if(numerator1%2==0){
-                var sol = numerator1 / 2;
-                message+= sol;
-            }else{
-                message+='$\\frac{' + numerator1 + '}{2}'
-            }
-
-            if(numerator2%2==0){
-                var sol = numerator2 / 2;
-                message+= sol;
-            }else{
-                message+='$\\frac{' + numerator2 + '}{2}'
-            }
-            
-        }else{
-            message+='$\\frac{1}{2}[' + trA + '+\\sqrt{' + test + '}]$, ';
-            message+='$\\frac{1}{2}[' + trA + '-\\sqrt{' + test + '}]$';
-        }
-    }
-    message +='</p>'
-    $("#numEigenvectors").html(message);
-
-}
 
 function generate_Matrix()
 {
-    matrix[0][0] = parseFloat($("#a11").val());
-    matrix[0][1] = parseFloat($("#a12").val());
-    matrix[1][0] = parseFloat($("#a21").val());
-    matrix[1][1] = parseFloat($("#a22").val());
+   matrix=new Matrix ("m",parseFloat($("#a11").val()),
+    parseFloat($("#a12").val()),
+    parseFloat($("#a21").val()),
+    parseFloat($("#a22").val()));
 
     /* If matrix changes, re-set the list of vectors to be drawn */
     vector_list = [];
-    solve();
+    printNumEigenvalue();
 }
 
+function printNumEigenvalue(){
+    var numEigenvalue = matrix.numRealEigenvalue();
+    var message="";
+    message +='<p> ';
+    if(numEigenvalue == 0){
+        message+='There is no eigenvalue for this matrix.';
+    }else if(numEigenvalue ==1){
+        message+='There is one eigenvalue for this matrix.';
+    }else{
+        message+='There are two eigenvalue for this matrix.'
+    }
+    message +='</p>'
+    $("#numEigenvectors").html(message);
+}
 function make_coefficient_table()
 {
     // Create code for a 2 x 2 HTML table to collect the matrix coefficients
@@ -171,8 +131,9 @@ function make_coefficient_table()
 
 function calculateT(u, v)
 {
-    return [matrix[0][0] * u + matrix[0][1] *v, matrix[1][0] * u + matrix[1][1] * v];
+    return [matrix.a11 * u + matrix.a12 *v, matrix.a21 * u + matrix.a22 * v];
 }
+
 
 /* Function to calculate the determinant of two vectors */
 function determinant(arg1, arg2)
@@ -189,16 +150,6 @@ function proportional(arg1, arg2)
 function toggle_freeze()
 {
     freeze = !freeze;
-}
-
-/* Append a vector to our list of stored vectors */
-function add_vector()
-{
-    var tmp = [x0, y0];
-    if (freeze && determinant(tmp, calculateT(x0, y0)) < 0.05)
-	vector_list.push(tmp);
-
-    draw_canvas();
 }
 
 function draw_one_grid()
@@ -224,6 +175,17 @@ function draw_grids()
     context.selectAll("line").remove();
     draw_one_grid();
 }
+/* Append a vector to our list of stored vectors */
+// function add_vector()
+// {
+//     var tmp = [x0, y0];
+//     if (freeze && determinant(tmp, calculateT(x0, y0)) < 0.05)
+// 	vector_list.push(tmp);
+
+//     draw_canvas();
+// }
+
+
 
 function draw_canvas()
 {
@@ -308,13 +270,13 @@ function drawUnit(){
     polyline(bd);
 }
 
-function make_menu()
-{
-    $("#modeMenu").change(function() {
-	mode = $("#modeMenu").find("option:selected").val();
-	if (mode == "ordinary")
-        mode = "ordinary"
-	else if (mode == "unit")
-        mode = "unit"
-    });
-}
+// function make_menu()
+// {
+//     $("#modeMenu").change(function() {
+// 	mode = $("#modeMenu").find("option:selected").val();
+// 	if (mode == "ordinary")
+//         mode = "ordinary"
+// 	else if (mode == "unit")
+//         mode = "unit"
+//     });
+// }

@@ -37,6 +37,84 @@ Matrix.prototype.inverse = function()
     return new Matrix(this.name+"^{-1}",this.a22/idet,-this.a12/idet,-this.a21/idet,this.a11/idet);
 }
 
+Matrix.prototype.numRealEigenvalue = function(){
+    
+    if(this.realTest()<0){
+        return 0;
+    }else if (this.realTest() == 0){
+        return 1;
+    }else{
+        return 2;
+    }
+}
+
+Matrix.prototype.realTest = function(){
+    return this.tr()*this.tr()-4*this.det();
+}
+
 Matrix.prototype.eigenvectors = function(){
 
+}
+
+Matrix.prototype.eigenvalueString = function(){
+    var num = this.numRealEigenvalue();
+    var t = this.realTest();
+    var trA = this.tr();
+    var eigenvalue1 = "";
+    var eigenvalue2 = "";
+    if(num == 0){
+        
+    }else if (num==1){
+        if(Math.sqrt(t) % 1 === 0){
+            var numerator = trA + Math.sqrt(t);
+            if(numerator%2==0){
+                var sol = numerator/2;
+                eigenvalue1+= sol;
+            }else{
+                eigenvalue1+='$\\frac{' + numerator + '}{2}'
+            }
+            
+        }else{
+            eigenvalue1+='$\\frac{1}{2}[' + trA + '+\\sqrt{' + t + '}]$';
+        }
+    }else{
+        if(Math.sqrt(t) % 1 === 0){
+            var numerator1 = trA + Math.sqrt(t);
+            var numerator2 = trA - Math.sqrt(t);
+            if(numerator1%2==0){
+                var sol = numerator1 / 2;
+                eigenvalue1+= sol;
+            }else{
+                eigenvalue1+='$\\frac{' + numerator1 + '}{2}'
+            }
+
+            if(numerator2%2==0){
+                var sol = numerator2 / 2;
+                eigenvalue2+= sol;
+            }else{
+                eigenvalue2+='$\\frac{' + numerator2 + '}{2}'
+            }
+            
+        }else{
+            eigenvalue1+='$\\frac{1}{2}[' + trA + '+\\sqrt{' + t + '}]$, ';
+            eigenvalue2+='$\\frac{1}{2}[' + trA + '-\\sqrt{' + t + '}]$';
+        }
+        
+    }
+    return [eigenvalue1,eigenvalue2];
+}
+
+Matrix.prototype.eigenvaluefloat = function(){
+    var num = this.numRealEigenvalue();
+    var trA = this.tr();
+    var eigenvalue1 = "";
+    var eigenvalue2 = "";
+    if(num == 0){
+    }else if(num==1){
+        eigenvalue1 = (trA + Math.sqrt(t))/2
+    }else{
+        eigenvalue1 = (trA + Math.sqrt(t))/2
+        eigenvalue2 = (trA - Math.sqrt(t))/2
+    }
+    return [eigenvalue1,eigenvalue2];
 }
