@@ -146,7 +146,19 @@ function drawCanvas() {
         xc = rect_map.x(m[0]);
         yc = rect_map.y(m[1]);
     }
-    //draw_grids();
+    context = d3.select("#domain");
+    context.selectAll("circle").remove();
+    context.selectAll("line").remove();
+    context.selectAll("path").remove();
+    context.selectAll("foreignObject").remove();
+
+    context = d3.select("#target");
+    context.selectAll("circle").remove();
+    context.selectAll("path").remove();
+    context.selectAll("line").remove();
+    context.selectAll("foreignObject").remove();
+
+    draw_grids();
     drawEigenspace();
     drawUnit();
     
@@ -192,15 +204,15 @@ function draw_one_grid() {
 
 function draw_grids() {
     context = d3.select("#domain");
-    context.selectAll("circle").remove();
-    context.selectAll("line").remove();
+    // context.selectAll("circle").remove();
+    // context.selectAll("line").remove();
 
     pen.opacity(1);
     draw_one_grid();
 
     context = d3.select("#target");
-    context.selectAll("path").remove();
-    context.selectAll("line").remove();
+    // context.selectAll("path").remove();
+    // context.selectAll("line").remove();
     draw_one_grid();
 }
 
@@ -218,9 +230,9 @@ function drawUnit() {
         tmp_image = calculateT(tmp_unit[0], tmp_unit[1]);
 
     context = d3.select("#domain");
-    context.selectAll("path").remove();
-    // clear labels
-    context.selectAll("foreignObject").remove();
+    // context.selectAll("path").remove();
+    // // clear labels
+    // context.selectAll("foreignObject").remove();
 
     pen.color(pen3).width("1px").fill(pen4).opacity(0.5);
     circle([0, 0], 1);
@@ -243,8 +255,8 @@ function drawUnit() {
 
     // Draw the target canvas
     context = d3.select("#target");
-    context.selectAll("path").remove();
-    context.selectAll("foreignObject").remove();
+    // context.selectAll("path").remove();
+    // context.selectAll("foreignObject").remove();
 
     // // Check for parallel vectors (i.e., an eigenvector), do special drawing
     // if (proportional(tmp_unit, tmp_image))
