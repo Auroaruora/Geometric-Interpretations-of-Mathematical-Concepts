@@ -118,8 +118,6 @@ Matrix.prototype.eigenvalueFloat = function () {
 Matrix.prototype.eigenvectorFloat = function () {
     var num = this.numRealEigenvalue();
     var eigenvalue = this.eigenvalueFloat();
-    //console.log(eigenvalue);
-
     var eigenvector1 = [NaN, NaN];
     var eigenvector2 = [NaN, NaN];
     var tempa11 = this.a11 - eigenvalue[0];
@@ -138,12 +136,6 @@ Matrix.prototype.eigenvectorFloat = function () {
         } else if (tempa11 == 0 && c == 0) {
             eigenvector1 = [tempa22, -b];
         }
-        console.log(tempa22,-b)
-        console.log(eigenvector1);
-
-
-
-
         if (num == 1) {
             return [eigenvector1, eigenvector2];
         } else {
