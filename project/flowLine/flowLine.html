@@ -135,14 +135,7 @@
         </div>
 
         <div class="row g-0">
-          <div id="canvas" class="col-canvas position-relative  "
-            style="text-align:center; margin:10px; margin-right:10px;">
-            <svg id="vectorField" style="z-index:1; position:absolute; left:0px; top:0px"></svg>
-            <svg id="flowLine" style="z-index:2; position:absolute; left:0px; top:0px"></svg>
-          </div>
-          <div>
-              <button type="button" id="play"> &#9658;</button>
-          </div>
+          
           <div class="col-canvas-info float-right">
             <div id="equation">$F(x,y)= $(
               <input name="fx" size="15" type="text" id="fx" onchange=" drawVectorField()" value="-y+cos(4x+7y)">,
@@ -152,6 +145,14 @@
               <input type="range" min="1" max="5" value="1" id="range" onchange="resetCanvas()">
               Range: <span id="canvas_range"></span>
             </div>
+          <div id="canvas" class="col-canvas position-relative  "
+            style="text-align:center; margin:10px; margin-right:10px;">
+            <svg id="vectorField" style="z-index:1; position:absolute; left:0px; top:0px"></svg>
+            <svg id="flowLine" style="z-index:2; position:absolute; left:0px; top:0px"></svg>
+          </div>
+          <div>
+              <button type="button" id="play"> &#9658;</button>
+          </div>
             
           </div>
         </div>
