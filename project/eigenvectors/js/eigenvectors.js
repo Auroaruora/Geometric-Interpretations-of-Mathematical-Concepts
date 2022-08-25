@@ -69,6 +69,8 @@ function generate_Matrix() {
         parseFloat($("#a21").val()),
         parseFloat($("#a22").val()));
     printNumEigenvalue();
+    visableEigenvectors =[false,false];
+
     /* If matrix changes, re-set the list of vectors to be drawn */
     //vector_list = [];
 
@@ -251,7 +253,7 @@ function drawUnit() {
     arrow([0, 0], tmp_unit);
     // Mult is scalar multiplication, defined in HC.js
     //Todo:label does not work
-    label(tmp_unit, [0,0], "<b>x</b>");
+    label(tmp_unit, [280,0], "<b>x</b>");
 
     // Draw the target canvas
     context = d3.select("#target");
@@ -283,12 +285,12 @@ function drawUnit() {
     pen.color(pen1).width("2px").opacity(1);
     arrow([0, 0], tmp_unit);
     //Todo:label does not work
-    label(tmp_unit, [0,0], "<b>x</b>");
+    label(tmp_unit, [280,0], "<b>x</b>");
 
     pen.color(pen2).width("4px").opacity(1);
     arrow([0, 0], tmp_image);
     //Todo:label does not work
-    label(tmp_image, [0,0], "<em>T</em>(<b>x</b>)");
+    label(tmp_image, [280,0], "<em>T</em>(<b>x</b>)");
 }
 
 
