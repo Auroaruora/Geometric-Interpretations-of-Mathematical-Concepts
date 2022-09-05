@@ -34,7 +34,7 @@ var dx = set_step(xmin, xmax),
 
 const d_theta = 0.01, d_phi = 0.01;
 var frame_count = 0;
-var animate_flag = false;
+var animationFlag = false;
 var allTrails = [];
 
 var layernum = 10;
@@ -78,7 +78,7 @@ $(document).ready(function () {
 
 });
 function generateFlowLine() {
-    animate_flag=false;
+    animationFlag=false;
     context = d3.select("#flowLine");
     context.selectAll("line").remove();
     context.selectAll("path").remove();
@@ -108,8 +108,8 @@ function display(name) {
 }
 
 function toggle_animate() {
-    animate_flag = !animate_flag;
-    if (animate_flag)
+    animationFlag = !animationFlag;
+    if (animationFlag)
         id = setInterval(drawCanvas, 40);
     else// drawCanvas has no action, but call only one a minute
         clearInterval(id);
@@ -181,10 +181,7 @@ function iterateData(data, path) {
 }
 
 function drawCanvas() {
-    //if(!animate_flag)
-    //return;
-    // else
-    if (animate_flag) {
+    if (animationFlag) {
         ++frame_count;
 
         context = d3.select("#flowLine");
@@ -208,7 +205,6 @@ function drawCanvas() {
     }else{
         redrawFlowLine(x0,y0)
     }
-
 }
 
 function drawVectorField() {
